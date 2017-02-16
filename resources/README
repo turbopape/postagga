@@ -1,0 +1,49 @@
+Models for processing several common Natural Language Processing tasks in French with Apache OpenNLP
+
+Last release : May the 13th, 2013
+
+Description
+
+Set of OpenNLP [1] models for the following tasks:
+Sentence segmentation (sent), 
+Word tokenization (tok), 
+Part-of-Speech Tagging (pos), 
+Morphological inflection analysis  (mph)*, 
+Lemmatization (lemma)*, 
+Chunking (chunk), 
+* To be used with the tagger.
+
+
+Notes on the current release
+
+Models for the sentence spliter, tokenizer, part-of-speech tagger, morphological analysers and chunker have built using the French Treebank corpus [2] (version 2010). 
+Models have been built with/for OpenNLP 1.5.3.
+The POS tagger model was trained on an improved version of the original tagset [4]. This tagset gives a better precision. The chunker model is based on this tagset. Some parsers (MaltParser, MSTParser, Berkeley Parser) use also this tagset version [5].
+We use the maxent model for training the POS Tagger with 200 iterations. 
+The chunker model has been trained on the fine-grained chunk annotations of the corpus. 
+All the models have been built taking into consideration the French Treebank multi-word expressions as tokens.
+There is not yet a lemma model available.
+
+Licence
+
+The French Treebank licence does not prevent to distribute its analysis results under whatever licence but it mentions that the it should be used only for research purpose. Consequently we restrict the use of these models only for research purposes.
+
+Download 
+
+Apache OpenNLP models for processing French [0]
+
+External resources
+
+Models for Named Entity recognition (Person|Organization|Location) have been built by Olivier Grisel using Wikipedia and DBpedia dumps.
+Current released models have been built with/for OpenNLP 1.5.1 and can be used with the Name Finder.  
+Tools to build the models are released under Apache 2 licence.  
+See for more detail [3].
+
+References
+
+[0] https://docs.google.com/spreadsheet/viewform?formkey=dGJ5ZmRvZnF0WEVUSXBPbWRzNjBIaEE6MQ
+[1] http://opennlp.apache.org/
+[2] Abeille, A., L. Clement, and F. Toussenel. 2003. `Building a treebank for French', in A. Abeille (ed) Treebanks , Kluwer, Dordrecht. http://www.llf.cnrs.fr/Gens/Abeille/French-Treebank-fr.php
+[3] http://www.nuxeo.com/blog/development/2011/01/mining-wikipedia-with-hadoop-and-pig-for-natural-language-processing/
+[4] Crabbé B. et Candito M.-H., 2008, Expériences d'analyses syntaxique statistique du français. Proceedings of TALN 2008, Avignon, France http://www.linguist.univ-paris-diderot.fr/~mcandito/Publications/crabbecandi-taln2008-final.pdf
+[5] http://alpage.inria.fr/statgram/frdep/fr_stat_dep_parsing.html
