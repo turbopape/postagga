@@ -11,7 +11,7 @@
 (defn matches?
   [input-item ; item : ["word" "postag"]
    current-tag-alternatives]
-  (some #{(get input-item  1)}  current-tag-alternatives)nnq)
+  (some #{(get input-item  1)}  current-tag-alternatives))
 
 (defn accept-tag
   "Verifies if an input like: [product NPP] correponds to
@@ -140,10 +140,11 @@
       (let  [cur-rule (first rem-rules)
              sentence-tokens (tokenizer sentence)
              
-             cur-parse-result (parse-sentence-w-a-tag-stack sentence-tokens cur-rule optional-steps)]
+             cur-parse-result (parse-sentence-w-a-tag-stack sentence-tokens (:rule cur-rule) optional-steps)]
         (if-let [err (get cur-parse-result :error)]
           (recur (rest rem-rules)
                  (conj errors err))
           {:errors nil
-           :result (get cur-parse-result :result)}))
+           :result {:rule (:id cur-rule)
+                    :data (get cur-parse-result :result)}}))
       {:errors errors})))
