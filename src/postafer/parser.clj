@@ -1,6 +1,6 @@
 (ns postafer.parser
   (:require [postafer.nlp :refer [make-tokenizer make-pos-tagger make-sentdetect]]
-   [postafer.rules :refer [rules]]))
+            [postafer.rules :refer [rules]]))
 
 
 (def tokenizer (make-tokenizer "fr-token.bin"))
@@ -24,7 +24,6 @@
   to the next status."
   [input-item
    tag-stack]
-  ;; pick the tag that should be there in the stack
 
   (if-let [current-tag-alternatives (first tag-stack)] ;; #{[:noun :verb ]...}
     (cond
@@ -72,59 +71,57 @@
   (loop
       [
        input-items (mapv (fn[item postag] [item  #{postag}])
-                        (seq sentence)
-                        (seq (pos-tags sentence)))
+                         (seq sentence)
+                         (seq (pos-tags sentence)))
        tag-stack init-tag-stack
        output-stack {}
        output {}]
-    (do
-      (println input-items)
-      (if (and (seq input-items) (seq tag-stack))
-        (let [input-item (first input-items)
-              {:keys [step new-stack] :as accept?} (accept-tag input-item tag-stack)]
-          (cond
-            step  (recur input-items
-                         new-stack
-                         {:step step :items []}
-                         (if  (empty? (get output-stack :items))
-                           output
-                           (assoc output (get output-stack :step)
-                                  (get  output-stack :items))))
-            
-            (and (not accept?)
-                 (some #{(get output-stack :step)}
-                       optional-steps)) (if-let [ffw-stack (fast-forward tag-stack)]
-                                          (recur input-items
-                                                 ffw-stack
-                                                 output-stack
-                                                 output)
-                                          {:error {:step (get output-stack :step)
-                                                   :expected (first tag-stack)
-                                                   :item input-item}})
-            
-            (not accept?) {:error {:output output
-                                   :step (get output-stack  :step)
-                                   :expected (first tag-stack) :item input-item}}
-            
-            :default (recur (rest input-items)
-                            new-stack
-                            (if (get-value? (first tag-stack))
-                              (merge-with conj output-stack {:items (get  input-item 0)})
-                              output-stack) 
-                            output)))
+    (if (and (seq input-items) (seq tag-stack))
+      (let [input-item (first input-items)
+            {:keys [step new-stack] :as accept?} (accept-tag input-item tag-stack)]
+        (cond
+          step  (recur input-items
+                       new-stack
+                       {:step step :items []}
+                       (if  (empty? (get output-stack :items))
+                         output
+                         (assoc output (get output-stack :step)
+                                (get  output-stack :items))))
+          
+          (and (not accept?)
+               (some #{(get output-stack :step)}
+                     optional-steps)) (if-let [ffw-stack (fast-forward tag-stack)]
+                                        (recur input-items
+                                               ffw-stack
+                                               output-stack
+                                               output)
+                                        {:error {:step (get output-stack :step)
+                                                 :expected (first tag-stack)
+                                                 :item input-item}})
+          
+          (not accept?) {:error {:output output
+                                 :step (get output-stack  :step)
+                                 :expected (first tag-stack) :item input-item}}
+          
+          :default (recur (rest input-items)
+                          new-stack
+                          (if (get-value? (first tag-stack))
+                            (merge-with conj output-stack {:items (get  input-item 0)})
+                            output-stack) 
+                          output)))
 
-        ;; either input or stack are empty here.
-        (cond (or  (and (empty? input-items)
-                        (empty? tag-stack))
-                   (some #{(first tag-stack)} optional-steps)
-                  
-                   (contains? (first tag-stack) :multi)) {:error false
-                                                          :result (assoc output (get output-stack :step)
-                                                                         (get  output-stack :items))} ;; all good,
-              (not (empty? input-items) ) {:error "Unable to consume all input."
-                                           :input input-items}
-              (not (empty? tag-stack) ) {:error "Input does not fulfill all of the tag-stack states."
-                                         :tag-stack tag-stack})))))
+      ;; either input or stack are empty here.
+      (cond (or  (and (empty? input-items)
+                      (empty? tag-stack))
+                 (some #{(first tag-stack)} optional-steps)
+                 
+                 (contains? (first tag-stack) :multi)) {:error false
+                                                        :result (assoc output (get output-stack :step)
+                                                                       (get  output-stack :items))} ;; all good,
+            (not (empty? input-items) ) {:error "Unable to consume all input."
+                                         :input input-items}
+            (not (empty? tag-stack) ) {:error "Input does not fulfill all of the tag-stack states."
+                                       :tag-stack tag-stack}))))
 
 
 
