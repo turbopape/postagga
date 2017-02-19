@@ -69,8 +69,7 @@
    init-tag-stack
    optional-steps]
   (loop
-      [
-       input-items (mapv (fn[item postag] [item  #{postag}])
+      [input-items (mapv (fn[item postag] [item  #{postag}])
                          (seq sentence)
                          (seq (pos-tags sentence)))
        tag-stack init-tag-stack
@@ -118,9 +117,9 @@
                  (contains? (first tag-stack) :multi)) {:error false
                                                         :result (assoc output (get output-stack :step)
                                                                        (get  output-stack :items))} ;; all good,
-            (not (empty? input-items) ) {:error "Unable to consume all input."
+            (not (empty? input-items)) {:error "Unable to consume all input."
                                          :input input-items}
-            (not (empty? tag-stack) ) {:error "Input does not fulfill all of the tag-stack states."
+            (not (empty? tag-stack)) {:error "Input does not fulfill all of the tag-stack states."
                                        :tag-stack tag-stack}))))
 
 

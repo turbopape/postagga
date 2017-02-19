@@ -13,6 +13,7 @@
            
            :qualif
            #{:multi :get-value #{"ADJ"}}]}
+   
    {;;Rule 1 "Je cherche une montre analogique"
     :id :rule1
     :rule [:intent       ;;<----- A atep
