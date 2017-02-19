@@ -4,11 +4,11 @@
 (ns postafer.tagger)
 
 ;;TODO - replace with a trainer
-(def states ["P" "V" "D" "N"])
-(def initial-probs {"P" 0.7 "V" 0.1 "D" 0.1 "N" 0.1})
-(def observations ["il" "mange" "des" "pommes"])
-(def transition-matrix {["P" "V"] 0.8 ["V" "D"] 0.8  ["D" "N"] 1})
-(def emission-matrix {["P" "il"] 1 ["V" "mange"] 1 ["D" "des"] 1 ["NC" "pommes"] 1})
+(def states ["P" "V" "D" "N"]) ;; <- this
+(def initial-probs {"P" 0.7 "V" 0.1 "D" 0.1 "N" 0.1});; <- this
+(def observations ["il" "mange" "des" "pommes"]) 
+(def transition-matrix {["P" "V"] 0.8 ["V" "D"] 0.8  ["D" "N"] 1}) ;; <- this
+(def emission-matrix {["P" "il"] 1 ["V" "mange"] 1 ["D" "des"] 1 ["NC" "pommes"] 1}) ;; <- thisx
 
 
 (defn arg-max
@@ -30,10 +30,10 @@
   (let [[T1 T2] (loop [rem-observations (rest observations)
                        prev-observation (first observations)
                        rem-states states
-                       T1 (reduce merge {} (for [i states]
-                                             {[i (first observations)] ((fnil  * 0 0)
-                                                                        (initial-probs i) (emission-matrix [i (first observations)]))}))
-                       T2 (reduce merge {} (for [i states] {[i (first observations)] 0}) )]
+                       T1 (into {} (for [i states]
+                                             [[i (first observations)] ((fnil  * 0 0)
+                                                                        (initial-probs i) (emission-matrix [i (first observations)])) ] ))
+                       T2 (into {} (for [i states] [ [i (first observations)]  0 ] ) )]
 
                   (if (seq rem-observations)
                     (let [cur-observation (first rem-observations)]
@@ -56,7 +56,7 @@
                                                                           p
                                                                           0)
                                                                         (reduce max (vals  A*T))))
-                                 (assoc T2 [cur-state cur-observation] (get  (arg-max A*T) 0))))
+                                 (assoc T2 [cur-state cur-observation] (get (arg-max A*T) 0))))
                         ;; No more states, I Go to the next Observation, I resume from the first state
                         (recur  (rest rem-observations)
                                 cur-observation
@@ -65,7 +65,7 @@
                                 T2))) ;; End of observations, I return
                     [T1 T2]))]
 
-    (loop [rem-observations   (reverse observations)
+    (loop [rem-observations (reverse observations)
            X (get
               (arg-max (into {} (filter #(= (get (key %) 1) (last observations)) T1)))
               0)
@@ -75,4 +75,4 @@
         (recur (rest rem-observations)
                (get T2 [X (first rem-observations)])
                (conj res X))
-        res))))
+        (into [] res)))))
