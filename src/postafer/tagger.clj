@@ -19,21 +19,25 @@
 
 
 (defn viterbi
-  [observations ;; in NLP: the words :  ["je" "tu" ...]
-   states ;; in NLP : the tags : [P V ADJ] 
-   initial-probs ;; (je pars de quel mot initialement ? {V 0.2 P 0.3} ...)
-   observations ;; "La phrase a tager : ["je" "suis" "malade"]"
-   transition-matrix ;; "avec quell proba on va d'un etat i a  etat j : {[p v] 0.1 [p adj] 0.2...} "
-   emission-matrix ;; "avec quell proba on a le tag (etat) j si on a le mot (obseravtion) i: {[ p "Je]" 0.9  [V "viens"] 0.3 ...}"
-   ]
-
+  "- states -  in NLP : the tags : [P V ADJ] 
+  - intial-probs - je pars de quel mot initialement ? {V 0.2 P 0.3} ...
+  - transition-matrix - avec quell proba on va d'un etat i a  etat j : {[p v] 0.1 [p adj] 0.2...} 
+  - emission-matrix - avec quell proba on a le tag (etat) j si on a le mot (obseravtion) i: {[ p Je] 0.9  [V viens] 0.3 ...} 
+  ------------- These are the trained model ---------
+  - observations - in NLP: tokens represnting the sentence to be pos-tagged  [je mange ...]"
+  [states 
+   initial-probs 
+   transition-matrix 
+   emission-matrix
+   observations]
   (let [[T1 T2] (loop [rem-observations (rest observations)
                        prev-observation (first observations)
                        rem-states states
                        T1 (into {} (for [i states]
-                                             [[i (first observations)] ((fnil  * 0 0)
-                                                                        (initial-probs i) (emission-matrix [i (first observations)])) ] ))
-                       T2 (into {} (for [i states] [ [i (first observations)]  0 ] ) )]
+                                     [[i (first observations)] ((fnil  * 0 0)
+                                                                (initial-probs i)
+                                                                (emission-matrix [i (first observations)]))]))
+                       T2 (into {} (for [i states] [[i (first observations)] 0]))]
 
                   (if (seq rem-observations)
                     (let [cur-observation (first rem-observations)]
@@ -41,10 +45,15 @@
                       (if (seq rem-states)
                         ;;I go to the next state for this observation
                         (let [cur-state (first rem-states)
-                              Akj (into {} (filter #(=(get  (key %) 1)
-                                                      cur-state) transition-matrix))
-                              T1ki-1 (into {} (filter #(=(get (key %) 1)
-                                                         prev-observation) T1))
+
+                              Akj (->> transition-matrix
+                                       (filter #(=(get (key %) 1) cur-state))
+                                       (into {}))
+
+                              T1ki-1 (->> T1
+                                          (filter #(=(get (key %) 1) prev-observation))
+                                          (into {})) 
+
                               A*T (merge-with * Akj T1ki-1)]
                           
                           (recur rem-observations
@@ -66,9 +75,10 @@
                     [T1 T2]))]
 
     (loop [rem-observations (reverse observations)
-           X (get
-              (arg-max (into {} (filter #(= (get (key %) 1) (last observations)) T1)))
-              0)
+           X (-> (arg-max (->> T1
+                               (filter #(= (get (key %) 1) (last observations)))
+                               (into {})))
+              (get 0))
            res '()]
       
       (if (seq rem-observations)             
