@@ -3,6 +3,10 @@
   (:require [postafer.tagger :refer [viterbi]]
             [postafer.rules :refer [rules]]))
 
+
+;; A sample: define pos-tags-sample
+
+
 (defn matches?
   [input-item ; item : ["word" "postag"]
    current-tag-alternatives]
@@ -141,3 +145,4 @@
            :result {:rule (:id cur-rule)
                     :data (get cur-parse-result :result)}}))
       {:errors errors})))
+
