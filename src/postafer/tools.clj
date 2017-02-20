@@ -1,3 +1,4 @@
+;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
 (ns postafer.tools)
 
 (defn get-column
@@ -13,7 +14,5 @@
   (->> matrix
        (filter #(= (get (key %) 0) column))
        (into {})))
-
-
 
 (def get-column-m (memoize get-column))

@@ -1,3 +1,4 @@
+;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
 (ns postafer.parser
   (:require [postafer.tagger :refer [viterbi]]
             [postafer.rules :refer [rules]]))

@@ -1,3 +1,5 @@
+;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
+;; A Sample rules file for the postafer parser
 (ns postafer.rules)
 
 (def rules

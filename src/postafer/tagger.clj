@@ -1,4 +1,4 @@
-;; copyright 2017 - rafik@fekr.tech
+;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
 ;; A POS Tagger based on the [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
 
 (ns postafer.tagger

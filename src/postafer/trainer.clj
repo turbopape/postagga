@@ -1,9 +1,10 @@
 ;; copyright 2017 - rafik@fekr.tech
+
 ;; A trainer for the Viterbi algorithm
 ;; given an annotated corpus, i.e: lines like these:
 #_[["Je" "P"] ["Mange" "V"] ["Une" "D"] ["Pomme" "N"]]
 ;; yields the viterbi params: 
-;;states what are the states of our HMMs:
+;; states what are the states of our HMMs:
 #_ #{"P" "V" "D" "N"}
 ;; initial probs - how likely are we sure that our first observation yields this:
 #_{"P" 0.7 "V" 0.1}
@@ -62,19 +63,19 @@
   "Takes an annotated-corpus (sentences):
   [[[Je P] [Mange V] [Une D] [Pomme N]] 
    [[Je P] [Tue V] [Une D] [Mouche N]]]
- 
- And yields a map containing the viterbi HMM discovery algorithms paramters:
- 
-{:states #{P V N D},
- :transitions {[P V] 1.0, [V D] 1.0, [D N] 1.0},
- :emissions
- {[P Je] 1.0,
+  
+  And yields a map containing the viterbi HMM discovery algorithms paramters:
+  
+  {:states #{P V N D},
+  :transitions {[P V] 1.0, [V D] 1.0, [D N] 1.0},
+  :emissions
+  {[P Je] 1.0,
   [V Mange] 0.5,
   [V Tue] 0.5,
   [N Pomme] 0.5,
   [N Mouche] 0.5,
   [D Une] 1.0},
- :init-probs {P 1.0}}"
+  :init-probs {P 1.0}}"
   
   [annotated-sentences]
   (loop [rem-sentences annotated-sentences
@@ -87,11 +88,11 @@
       (let [sentence (first rem-sentences)
             {:keys [states transitions emissions init-state] :as cur-sent-data} (process-annotated-sentence sentence)
             _ (println "emissions" emissions)]
-          (recur (rest rem-sentences)
-                 (into res-states states)
-                 (merge-with + res-transitions transitions)
-                 (merge-with + res-emissions emissions)
-                 (conj res-init-states init-state)))
+        (recur (rest rem-sentences)
+               (into res-states states)
+               (merge-with + res-transitions transitions)
+               (merge-with + res-emissions emissions)
+               (conj res-init-states init-state)))
       {:states res-states
        :transitions (compute-matrix-row-probs res-states res-transitions)
        :emissions (compute-matrix-row-probs res-states res-emissions)
