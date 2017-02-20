@@ -17,6 +17,14 @@
   [coll]
   (apply max-key (into [coll] (keys coll))))
 
+(defn get-column
+  "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
+  [matrix column]
+  (->> matrix
+       (filter #(= (get (key %) 1) column))
+       (into {})))
+
+(def get-column-m (memoize get-column))
 
 (defn viterbi
   "- states -  in NLP : the tags : [P V ADJ] 
@@ -46,14 +54,10 @@
                         ;;I go to the next state for this observation
                         (let [cur-state (first rem-states)
 
-                              Akj (->> transition-matrix
-                                       (filter #(=(get (key %) 1) cur-state))
-                                       (into {}))
-
-                              T1ki-1 (->> T1
-                                          (filter #(=(get (key %) 1) prev-observation))
-                                          (into {})) 
-
+                              Akj (get-column-m transition-matrix cur-state)
+                            
+                              T1ki-1 (get-column-m T1 prev-observation)
+                            
                               A*T (merge-with * Akj T1ki-1)]
                           
                           (recur rem-observations
@@ -75,10 +79,9 @@
                     [T1 T2]))]
 
     (loop [rem-observations (reverse observations)
-           X (-> (arg-max (->> T1
-                               (filter #(= (get (key %) 1) (last observations)))
-                               (into {})))
-              (get 0))
+           X (-> (get-column-m T1 (last observations))
+                 arg-max
+                 (get 0))
            res '()]
       
       (if (seq rem-observations)             

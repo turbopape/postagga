@@ -1,12 +1,6 @@
 (ns postafer.parser
-  (:require [postafer.nlp :refer [make-tokenizer make-pos-tagger make-sentdetect]]
+  (:require [postafer.tagger :refer [viterbi]]
             [postafer.rules :refer [rules]]))
-
-
-(def tokenizer (make-tokenizer "fr-token.bin"))
-(def pos-tags (make-pos-tagger "fr-pos.bin"))
-(def sentdetect (make-sentdetect "fr-sent.bin"))
-
 
 (defn matches?
   [input-item ; item : ["word" "postag"]
@@ -65,13 +59,14 @@
 
 
 (defn parse-sentence-w-a-tag-stack
-  [sentence 
+  [pos-tagger-fn
+   sentence
    init-tag-stack
    optional-steps]
   (loop
       [input-items (mapv (fn[item postag] [item  #{postag}])
-                         (seq sentence)
-                         (seq (pos-tags sentence)))
+                         sentence
+                         (pos-tagger-fn sentence))
        tag-stack init-tag-stack
        output-stack {}
        output {}]
@@ -123,20 +118,21 @@
                                        :tag-stack tag-stack}))))
 
 
-
 (defn parse-tags-rules
   "Tries to parse the sentence according to rules (tag stacks). If it finds a
   match, will return it. else, it'll return the errors it found"
-  [rules
+  [tokenizer-fn
+   pos-tagger-fn
+   rules
    sentence
    optional-steps]
   (loop [rem-rules rules
          errors []]
     (if (seq rem-rules)
       (let  [cur-rule (first rem-rules)
-             sentence-tokens (tokenizer sentence)
+             sentence-tokens (tokenizer-fn sentence)
              
-             cur-parse-result (parse-sentence-w-a-tag-stack sentence-tokens (:rule cur-rule) optional-steps)]
+             cur-parse-result (parse-sentence-w-a-tag-stack pos-tagger-fn sentence-tokens (:rule cur-rule) optional-steps)]
         (if-let [err (get cur-parse-result :error)]
           (recur (rest rem-rules)
                  (conj errors err))
