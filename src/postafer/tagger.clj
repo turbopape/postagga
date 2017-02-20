@@ -1,10 +1,11 @@
 ;; copyright 2017 - rafik@fekr.tech
 ;; A POS Tagger based on the [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
 
-(ns postafer.tagger)
+(ns postafer.tagger
+  (:require [postafer.tools :refer [get-column-m]]))
 
 ;;TODO - replace with a trainer
-(def states ["P" "V" "D" "N"]) ;; <- this
+(def states #{"P" "V" "D" "N"}) ;; <- this
 (def initial-probs {"P" 0.7 "V" 0.1 "D" 0.1 "N" 0.1});; <- this
 (def observations ["il" "mange" "des" "pommes"]) 
 (def transition-matrix {["P" "V"] 0.8 ["V" "D"] 0.8  ["D" "N"] 1}) ;; <- this
@@ -17,14 +18,6 @@
   [coll]
   (apply max-key (into [coll] (keys coll))))
 
-(defn get-column
-  "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
-  [matrix column]
-  (->> matrix
-       (filter #(= (get (key %) 1) column))
-       (into {})))
-
-(def get-column-m (memoize get-column))
 
 (defn viterbi
   "- states -  in NLP : the tags : [P V ADJ] 
