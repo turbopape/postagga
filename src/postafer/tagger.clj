@@ -4,14 +4,6 @@
 (ns postafer.tagger
   (:require [postafer.tools :refer [get-column-m]]))
 
-;;TODO - replace with a trainer
-(def states #{"P" "V" "D" "N"}) ;; <- this
-(def initial-probs {"P" 0.7 "V" 0.1 "D" 0.1 "N" 0.1});; <- this
-(def observations ["il" "mange" "des" "pommes"]) 
-(def transition-matrix {["P" "V"] 0.8 ["V" "D"] 0.8  ["D" "N"] 1}) ;; <- this
-(def emission-matrix {["P" "il"] 1 ["V" "mange"] 1 ["D" "des"] 1 ["NC" "pommes"] 1}) ;; <- thisx
-
-
 (defn arg-max
   "Applies the fn to maximize to a map {:k1 val :k2 val...} then
   gives the key that yields the maximum value"
@@ -23,7 +15,7 @@
   "- states -  in NLP : the tags : [P V ADJ] 
   - intial-probs - je pars de quel mot initialement ? {V 0.2 P 0.3} ...
   - transition-matrix - avec quell proba on va d'un etat i a  etat j : {[p v] 0.1 [p adj] 0.2...} 
-  - emission-matrix - avec quell proba on a le tag (etat) j si on a le mot (obseravtion) i: {[ p Je] 0.9  [V viens] 0.3 ...} 
+  - emission-matrix - avec quell proba  on a le mot (obseravtion) j si on a le tag (etat) i: {[ p Je] 0.9  [V viens] 0.3 ...} 
   ------------- These are the trained model ---------
   - observations - in NLP: tokens represnting the sentence to be pos-tagged  [je mange ...]"
   [states 
