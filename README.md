@@ -22,17 +22,19 @@ First step in understanding this sentence is to extract some structure from it s
 > Noun Verb Noun
 
 That was the phrase structure analysis, or as we call it POS (Part Of Speech) Tagging. These "Tags" qualify parts of the sentence, as the name imply, and will be used as a hi-fidelity mechanism to write rules for parsers of such phrases.
+
 **postagga** has tools that enable you to train POS Taggers for any language you want, without relying on external libs. Actually, it does not care about the meaning of the tags at all. However, you should be consistent and clear enough when annotating your input data samples with tags: On the one hand, your parser will be more reliable and on the other hand, of course, you'll do yourself a great favour maintaining your parser.
 
 Now comes the parser part. Actually, **postagga** offers a parser that needs smantic **rules** to be able to map a particular phrase structure into data.In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is  represented by the **Verb** following it.Finally, the **Noun** coming after the **Verb** will undergo this action.
-**postagga** parsers just lets you express this. You literally tell him take the first **Noun**, call it **Subject**, take the verb, label it **action** and the last **Noun** will be the **Object**. At the end of the day, **postagga**, given the input sentence will issue the following data strucutre:
+
+**postagga** parsers just lets you express such rules so they can extract the data for you. You literally tell them to take the first **Noun**, call it **Subject**, take the verb, label it **action** and the last **Noun** will be the **Object**. and package all of it into the following data strucutre:
 
 ```clojure
 {:Subject "Rafik" :Action "Loves" :Object "Apples"}
 ```
 Naturally, **postagga** can handle much more complex sentences !
 
-**postagga** parsers are eventually compiled into self-contained packages, with no third part dependencies, and can run on servers (Clojure version) or on the browser (ClojureScript), so now your bots can really get what you're trying to tell them!
+**postagga** parsers are eventually compiled into self-contained packages, with no single third party dependency, and can easily run  on servers (Clojure version) and on the browser (ClojureScript), so now your bots can really get what you're trying to tell them!
 
 
 # Code Of Conduct
