@@ -15,10 +15,11 @@ parsers to drill information from natural text.
 understands free speech (Yeah!) into structured data, and will happily run
 where Java and JavaScript can... So you can make real smart bots now!
 
-## Code Of Conduct
+# Code Of Conduct
 Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 # License and Credits
 Copyright (c) 2017 Rafik Naccache <rafik@fekr.tech>
+Happily brought to you by [fekr](http://fekr.tech)
 Distributed under the terms of the [MIT License]("http://opensource.org/licenses/MIT)
 
