@@ -4,7 +4,9 @@
 
 > "But if thought corrupts language, language can also corrupt thought."
 - George Orwell, 1984
-** WARNING !! The tagger is not stable right now!! **
+
+
+** WARNING !! The tagger is not stable right now!! Only the Parser can be used (with another tagger) !! **
 
 **postagga** is a suite of tools that aims to assist you in generating a
 simple and embeddable natural language processor. You can use **postagga** 
