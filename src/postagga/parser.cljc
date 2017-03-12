@@ -1,5 +1,6 @@
 ;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
 ;; Licensed under the terms of the MIT License
+
 (ns postagga.parser
   (:require [postagga.tagger :refer [viterbi]]
             [stemmer.snowball :as snowball]))

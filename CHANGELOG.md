@@ -3,7 +3,9 @@
 ## [0.2.0] - 2017-03-11
 ### Added
 - Annotated french corpus based on the [Sequoia Corpus from INRIA](https://www.rocq.inria.fr/alpage-wiki/tiki-index.php?page=CorpusSequoia)
-  
+- Annotated french corpus based on the [Free French tree Bank](https://github.com/nicolashernandez/free-french-treebank)
+- Changed signature of the viterbi fn 
+
 ## [0.1.0] - 2017-03-10
 ### Added
 - First commit: trainer, tagger, parser , rules and tools namespaces.

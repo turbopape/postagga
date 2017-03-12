@@ -1,11 +1,10 @@
 ;;Copyright (c) 2017 Rafik Naccache <rafik@fekr.tech>
-
+;;Distributed under the MIT License
 (ns postagga.core-test
   (:require [clojure.test :refer :all]
             [postagga.tools :refer [load-edn-from-resource get-row get-column]]
             [postagga.parser :refer [parse-tags-rules]]
             [postagga.tagger :refer [viterbi]]))
-
 
 ;; Here we force the use of a model, but in trainer.clj we have the
 ;; means to create such a model
@@ -27,18 +26,10 @@
 
 ;; I can plug any pos-tagger, given a vector of words returns a vector or [w [pos-tags]]
 ;; Now we have a HMM based models, which is state of the art: the Viterbi Algorithm
-(def sample-pos-tagger-fn (partial viterbi
-                                   (:states sample-model)
-                                   (:init-probs sample-model)
-                                   (:transitions sample-model)
-                                   (:emissions sample-model)))
+(def sample-pos-tagger-fn (partial viterbi sample-model))
 
 
-(def fr-v-pos-tagger-fn (partial viterbi
-                                 (:states fr-tb-model)
-                                 (:init-probs fr-tb-model)
-                                 (:transitions fr-tb-model)
-                                 (:emissions fr-tb-model)))
+(def fr-v-pos-tagger-fn (partial viterbi fr-tb-model))
 
 ;; Todo : create the tokenizer ns
 (def sample-tokenizer-fn #(clojure.string/split % #"\s"))

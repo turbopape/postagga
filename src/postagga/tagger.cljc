@@ -1,15 +1,14 @@
 ;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
+;; Distributed under the MIT License.
 ;; A POS Tagger based on the [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
-
-(ns postaga.tagger
+ 
+(ns postagga.tagger
   (:require [postagga.tools :refer [get-column-m]]))
 
 (defn arg-max
-  "Applies the fn to maximize to a map {:k1 val :k2 val...} then
-  gives the key that yields the maximum value"
+  "gives the key that yields the maximum value"
   [coll]
   (apply max-key (into [coll] (keys coll))))
-
 
 (defn viterbi
   "- states -  in NLP : the tags : [P V ADJ] 
@@ -18,19 +17,20 @@
   - emission-matrix - avec quell proba  on a le mot (obseravtion) j si on a le tag (etat) i: {[ p Je] 0.9  [V viens] 0.3 ...} 
   ------------- These are the trained model ---------
   - observations - in NLP: tokens represnting the sentence to be pos-tagged  [je mange ...]"
-  [states 
-   initial-probs 
-   transition-matrix 
-   emission-matrix
-   observations]
-  (let [[T1 T2] (loop [rem-observations (rest observations)
+  [model observations]
+  (let [{:keys [states 
+                init-probs 
+                transitions 
+                emissions]} model
+        
+        [T1 T2] (loop [rem-observations (rest observations)
                        prev-observation (first observations)
                        rem-states states
                        T1 (into {} (for [i states]
                                      [[i (first observations)] ((fnil  * 0 0)
-                                                                (initial-probs i)
-                                                                (emission-matrix [i (first observations)]))]))
-                       T2 (into {} (for [i states] [[i (first observations)] 0]))]
+                                                                (init-probs i)
+                                                                (emissions [i (first observations)]))]))
+                       T2 (into {} (for [i states] [[i (first observations)] :NA]))]
 
                   (if (seq rem-observations)
                     (let [cur-observation (first rem-observations)]
@@ -39,7 +39,7 @@
                         ;;I go to the next state for this observation
                         (let [cur-state (first rem-states)
 
-                              Akj (get-column-m transition-matrix cur-state)
+                              Akj (get-column-m transitions cur-state)
                             
                               T1ki-1 (get-column-m T1 prev-observation)
                             
@@ -49,7 +49,7 @@
                                  prev-observation
                                  (rest rem-states)
                                  (assoc T1 [cur-state cur-observation] (*
-                                                                        (if-let [p  (get emission-matrix
+                                                                        (if-let [p  (get emissions
                                                                                          [cur-state cur-observation])]
                                                                           p
                                                                           0)
@@ -60,11 +60,12 @@
                                 cur-observation
                                 states
                                 T1
-                                T2))) ;; End of observations, I return
+                                T2)))
+                    ;; End of observations, I return
                     [T1 T2]))]
 
     (loop [rem-observations (reverse observations)
-           X (-> (get-column-m T1 (last observations))
+           X (-> (get-column-m T1 (first rem-observations))
                  arg-max
                  (get 0))
            res '()]
