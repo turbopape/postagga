@@ -53,7 +53,7 @@
                                                                                          [cur-state cur-observation])]
                                                                           p
                                                                           0)
-                                                                        (reduce max (vals  A*T))))
+                                                                        (reduce max (vals A*T))))
                                  (assoc T2 [cur-state cur-observation] (get (arg-max A*T) 0))))
                         ;; No more states, I Go to the next Observation, I resume from the first state
                         (recur  (rest rem-observations)
@@ -68,7 +68,6 @@
                  arg-max
                  (get 0))
            res '()]
-      
       (if (seq rem-observations)             
         (recur (rest rem-observations)
                (get T2 [X (first rem-observations)])

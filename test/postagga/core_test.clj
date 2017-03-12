@@ -2,13 +2,16 @@
 
 (ns postagga.core-test
   (:require [clojure.test :refer :all]
-            [postagga.core :refer :all]
+            [postagga.tools :refer [load-edn-from-resource get-row get-column]]
             [postagga.parser :refer [parse-tags-rules]]
             [postagga.tagger :refer [viterbi]]))
 
 
 ;; Here we force the use of a model, but in trainer.clj we have the
 ;; means to create such a model
+
+(def fr-seq-model (load-edn-from-resource "fr_sequoia_pos_v_model.edn"))
+(def fr-tb-model (load-edn-from-resource "fr_tb_v_model.edn"))
 
 (def sample-model ; as trained by train in trainer.clj
   {:states #{"P" "V" "N" "D"},
@@ -30,7 +33,14 @@
                                    (:transitions sample-model)
                                    (:emissions sample-model)))
 
-;; TODO : create the tokenizer ns
+
+(def fr-v-pos-tagger-fn (partial viterbi
+                                 (:states fr-tb-model)
+                                 (:init-probs fr-tb-model)
+                                 (:transitions fr-tb-model)
+                                 (:emissions fr-tb-model)))
+
+;; Todo : create the tokenizer ns
 (def sample-tokenizer-fn #(clojure.string/split % #"\s"))
 
 (def sample-rules [{:id :sample-rule-0
@@ -77,3 +87,5 @@
   (is (=  {:sujet["Je"] :action ["tue"], :objet ["pomme"]}
           (-> (parse-tags-rules sample-tokenizer-fn sample-pos-tagger-fn sample-rules "Je tue une pomme" [])
               (get-in [:result :data])))))
+
+

@@ -14,7 +14,7 @@
 #_{["P" "il"] 1 ["V" "mange"] 1} 
 
 (ns postagga.trainer
-  (:require [postagga.tools :refer [get-row]]))
+  (:require [postagga.tools :refer [get-row load-edn-from-resource]]))
 
 (defn process-annotated-sentence
   " A sentence is [[Je P]] ... "
@@ -86,8 +86,7 @@
     
     (if (seq rem-sentences)
       (let [sentence (first rem-sentences)
-            {:keys [states transitions emissions init-state] :as cur-sent-data} (process-annotated-sentence sentence)
-            _ (println "emissions" emissions)]
+            {:keys [states transitions emissions init-state] :as cur-sent-data} (process-annotated-sentence sentence)]
         (recur (rest rem-sentences)
                (into res-states states)
                (merge-with + res-transitions transitions)
