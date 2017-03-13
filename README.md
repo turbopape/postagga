@@ -46,7 +46,7 @@ That was the phrase structure analysis, or as we call it POS (Part Of Speech) Ta
 
 **postagga** has tools that enable you to train POS Taggers for any language you want, without relying on external libs. Actually, it does not care about the meaning of the tags at all. However, you should be consistent and clear enough when annotating your input data samples with tags: On the one hand, your parser will be more reliable and on the other hand, of course, you'll do yourself a great favour maintaining your parser.
 
-Now comes the parser part. Actually, **postagga** offers a parser that needs smantic **rules** to be able to map a particular phrase structure into data.In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is  represented by the **Verb** following it.Finally, the **Noun** coming after the **Verb** will undergo this action.
+Now comes the parser part. Actually, **postagga** offers a parser that needs semantic **rules** to be able to map a particular phrase structure into data. In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is  represented by the **Verb** following it.Finally, the **Noun** coming after the **Verb** will undergo this action.
 
 **postagga** parsers just lets you express such rules so they can extract the data for you. You literally tell them to take the first **Noun**, call it **Subject**, take the verb, label it **action** and the last **Noun** will be the **Object**. and package all of it into the following data strucutre:
 
@@ -62,14 +62,15 @@ Naturally, **postagga** can handle much more complex sentences !
 ## Training a POS Tagger
 First of all, you need to train a POS Tagger that can qualify parts of
 your natural text. **postagga** relies on Hidden Markov Models,
-discoverd by
+computed with
 the
 [Viterbi  Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm). This
 algorithm relies on a set of matrices, like what states (the POS Tags)
 we have, how likely do we transition from one POS tag to another,
 etc...
-All of these constitute a model. And these are computed out of what we
-call an annotated text corpus. the **trainer** namespace create models
+
+All of these constitute a **model**. And these are computed out of what we
+call an **annotated text corpus**. The **trainer** namespace is used create models
 out of such annoateted text corpus.
 To train a model, make sure you have an annotated corpus like so:
 
@@ -81,7 +82,7 @@ To train a model, make sure you have an annotated corpus like so:
 ```
 
 say you have this corpus - that is : a vector of annotated sentences
-in a var named corpus. To train a model, just issue:
+in a var unsurprisingly named **corpus***. To train a **model**, just issue:
 
 ```clojure
 (require '[postagga.trainer :refer [train]]
@@ -152,29 +153,42 @@ infomation. Here's what the parser rules look like:
 ```
 This deserves some explanation before we carry on with our example.
 
-The parser is basically a state machine. It goes through steps, with each step encompassing multiple
-states. A state basically refers to words; it is matched with tag sets
-(A Word can have mutiple tags, if your preferred tagger wants to). 
-Different tag sets can be assigned to a step. For instance, to say that in this state we want a Noun or an
+The parser is basically a state machine. It goes through steps *[:qui, :mood]*, with each step encompassing multiple
+states *[#{#{"V}} ...]*. A state basically refers to words; it is matched with tag sets
+(A word can very well relate to mutiple tags, if your preferred tagger wants to !!). 
+Different tag sets can be assigned to a state. For instance, to say that in this state we want a Noun or an
 Adjective, you can put:
 
 ```clojure
+;...
 #{#{"V"} #{"NPP"}}
+;...
 ```
 
-putting the keyword **:get-value** in a state grabs the word having
-this state and puts in the yielded parse map, under a key representing
-that step. for instance, the value of "V" will be reflected on the
-output map as (given that we are in the **:qui** step):
+putting the keyword **:get-value** in a state tells the parser to grab the word having
+led to this state and to put in the yielded parse map, under a key representing
+the step in which that state was in. Confusing, isn,t it? You'll get it with an example. Look at our rule above. 
+Somewhere we have:
+
+```clojure
+[:qui ; <-- A step
+;;..
+{:get-value #{"CLS"}} ;;<-- A state with :get-value under the :qui step
+;;..
+]
+```
+The value of the word that yielded the tag **CLS**  - which is **je** in our example, will be reflected on the
+output map as an entry in the vector associated with the related step,which is **qui** :
 
 ```clojure
 {:qui ["je"]}
 ```
-If we had multiple get-values, we'll find multiple words in the
-data-structure, that's why the map is referring a vector.
+This is what the **postagga** parser is all about: you tell him where to extract information, and how you want it strctured for upstream processing.
+
+If we had multiple states with **:get-value** flag on, we'll find multiple words in the corresponding entry in the output; that's why the **step** key is referring a vector of words in the output map.
 
 It is also possible to say that a state can be emcountered repeatedly,
-using the :multi keyword. If you say in certain state:
+using the **:multi** keyword. If you say in certain state:
 ```clojure
 :some-step
 ;...
@@ -186,7 +200,7 @@ You'll find in the parse map:
 {:some-step ["beau" "laid" "intelligent"]}
 ```
 
-**:optional-steps** tells the parser not to raise an error if a step
+the **:optional-steps** stanza tells the parser not to raise an error if a step
 belonging to this vector is not present.
 
 You'll also need to tell the parser how to break down a line of text
