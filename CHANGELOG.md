@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.2.2] - 2017-03-13
+### Fixed
+- in tagger.cljc: removed an irrelevant destructuring.
+
 ## [0.2.1] - 2017-03-13
 ### Added
 - Detailed workflow and references in Readme.
