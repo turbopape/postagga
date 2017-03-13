@@ -1,6 +1,11 @@
 # Change Log
 
 ## [0.2.1] - 2017-03-13
+### Added
+- Detailed workflow and references in Readme.
+### Changed
+- :optional-steps are now specified in the rules. No more passing in
+  the parser functions.  
 ### Fixed
 - Fixed the Viterbi implemetntion. We don't need T2, we have the
   associated state as we work with Clojure maps - Simpler

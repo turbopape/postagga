@@ -76,13 +76,13 @@
       (let [input-item (first input-items)
             {:keys [step new-stack] :as accept?} (accept-tag input-item tag-stack)]
         (cond
-          step  (recur input-items
-                       new-stack
-                       {:step step :items []}
-                       (if  (empty? (get output-stack :items))
-                         output
-                         (assoc output (get output-stack :step)
-                                (get  output-stack :items))))
+          step (recur input-items
+                      new-stack
+                      {:step step :items []}
+                      (if  (empty? (get output-stack :items))
+                        output
+                        (assoc output (get output-stack :step)
+                               (get  output-stack :items))))
           
           (and (not accept?)
                (some #{(get output-stack :step)}
@@ -126,12 +126,12 @@
   [tokenizer-fn
    pos-tagger-fn
    rules
-   sentence
-   optional-steps]
+   sentence]
   (loop [rem-rules rules
          errors []]
     (if (seq rem-rules)
       (let  [cur-rule (first rem-rules)
+             optional-steps (:optional-steps cur-rule)
              sentence-tokens (tokenizer-fn sentence)
              
              cur-parse-result (parse-sentence-w-a-tag-stack pos-tagger-fn sentence-tokens (:rule cur-rule) optional-steps)]

@@ -35,6 +35,7 @@
 (def sample-tokenizer-fn #(clojure.string/split % #"\s"))
 
 (def sample-rules [{:id :sample-rule-0
+                    :optional-steps []
                     :rule [:sujet
                            #{:get-value #{"P"}}
 
@@ -48,6 +49,7 @@
                    
                    {;;Rule 0 "Montrez moi les chaussures noires"
                     :id :sample-rule-1
+                    :optional-steps []
                     :rule [:intent       ;;<----- A atep
                            #{:get-value #{"NPP"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)
                            #{#{"NC"}}
@@ -61,6 +63,7 @@
                    
                    {;;Rule 1 "Je cherche une montre analogique"
                     :id :sample-rule-2
+                    :optional-steps []
                     :rule [:intent       ;;<----- A atep
                            #{#{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)
                            #{:get-value #{"V"}}
@@ -73,6 +76,7 @@
                            #{:multi :get-value #{"ADJ"}}]}
                    {;;Rule TB French "je suis heureux."
                     :id :sample-rule-tb-french
+                    :optional-steps []
                     :rule [:qui       ;;<----- A atep
                            #{:get-value #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)                           
                            :mood
@@ -84,13 +88,13 @@
 (deftest sample-rules-pass
   (testing "Je tue une mouche doit retourner P V D N")
   (is (=  {:sujet["Je"] :action ["tue"], :objet ["pomme"]}
-          (-> (parse-tags-rules sample-tokenizer-fn sample-pos-tagger-fn  sample-rules "Je tue une pomme" [])
+          (-> (parse-tags-rules sample-tokenizer-fn sample-pos-tagger-fn  sample-rules "Je tue une pomme")
               (get-in [:result :data])))))
 
 (deftest fr-tb-rules-pass
   (testing " Je suis heureux doit retourner CLS V ADJ")
   (is (=  {:qui["je"] :mood ["heureux"]}
-          (-> (parse-tags-rules sample-tokenizer-fn fr-v-tb-pos-tagger-fn sample-rules  "je suis heureux" [])
+          (-> (parse-tags-rules sample-tokenizer-fn fr-v-tb-pos-tagger-fn sample-rules  "je suis heureux")
               (get-in [:result :data])))))
 
 

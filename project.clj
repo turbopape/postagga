@@ -1,5 +1,5 @@
 (defproject postagga "0.2.1"
-  :description "postagga: Set of tools to parse natural language in Clojure/Script"
+  :description "A Library to parse natural language in pure Clojure and ClojureScript"
   :url "http://fekr.tech/postagga"
   :license {:name "MIT"
             :url "http://opensource.org/licenses/MIT"}
