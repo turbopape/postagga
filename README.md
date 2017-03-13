@@ -1,15 +1,36 @@
 # postagga
+
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 [![Gratipay](https://img.shields.io/gratipay/turbopape.svg)](https://gratipay.com/turbopape/)
+[![Clojars Project](https://img.shields.io/clojars/v/postagga.svg)](https://clojars.org/postagga)
 
 > "But if thought corrupts language, language can also corrupt thought."
 - George Orwell, 1984
 
-**postagga** is a suite of tools that aims to assist you in generating a
-simple and embeddable natural language processor. You can use **postagga** 
-to process annotated text samples into full fledged parsers capable of understanding users' *free speech* input as structured data.
+**postagga** is a suite of tools to assist you in generating 
+efficient and self-contained natural language processors. You can use **postagga** 
+to process annotated text samples into full fledged parsers capable of
+understanding "*free speech*" input as structured data. Ah and
+you'll be able to do this easily. You're welcome.
 
-To achieve this, **postagga** extracts the *phrase structure* of your input, and tries to find how do this structure compare to its many semantic rules and if it finds a match, where in this structure shall he extract meaningful information.
+# Getting postagga
+
+you can refer **postagga** as a lib in your clojure project. Grab it
+from clojars - in your dependencies in **project.clj**, just add:
+
+```clojure
+[postagga "0.2.1"]
+```
+
+If you want to play with the models hosted in the repository, feel
+free to clone the project:
+
+```ssh
+git clone https://github.com/turbopape/postagga.git
+```
+# How does it work?
+
+To do its magic, **postagga** extracts the *phrase structure* of your input, and tries to find how do this structure compare to its many semantic rules and if it finds a match, where in this structure shall he extract meaningful information.
 
 Let's study a simple example. Look at the next sentence:
 
@@ -36,7 +57,7 @@ Naturally, **postagga** can handle much more complex sentences !
 
 **postagga** parsers are eventually compiled into self-contained packages, with no single third party dependency, and can easily run  on servers (Clojure version) and on the browser (ClojureScript), so now your bots can really get what you're trying to tell them!
 
-# Workflow
+# The postagga Workflow
 
 ## Training a POS Tagger
 First of all, you need to train a POS Tagger that can qualify parts of
@@ -210,6 +231,12 @@ You can see some of this workflow (other than the training) in the
 [Tests](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.clj).
 
 Please refer to the [Changelog](https://github.com/turbopape/postagga/blob/master/CHANGELOG.md) to see included features per version.
+
+# TODO and contributing
+
+**postagga** can make great use of great contributors like you! I'll
+track the enhancements, bugs, features etc... in the [project issues](https://github.com/turbopape/postagga/issues)
+tab, and please feel free to send your PRs!
 
 # Code Of Conduct
 
