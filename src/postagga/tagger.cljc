@@ -3,12 +3,9 @@
 ;; A POS Tagger based on the [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
  
 (ns postagga.tagger
-  (:require [postagga.tools :refer [get-column-m]]))
+  (:require [postagga.tools :refer [get-column-m get-row-m arg-max-m]]))
 
-(defn arg-max
-  "gives the key that yields the maximum value"
-  [coll]
-  (apply max-key (into [coll] (keys coll))))
+
 
 (defn viterbi
   "- states -  in NLP : the tags : [P V ADJ] 
@@ -29,8 +26,7 @@
                        T1 (into {} (for [i states]
                                      [[i (first observations)] ((fnil  * 0 0)
                                                                 (init-probs i)
-                                                                (emissions [i (first observations)]))]))
-                       T2 (into {} (for [i states] [[i (first observations)] :NA]))]
+                                                                (emissions [i (first observations)]))]))]
 
                   (if (seq rem-observations)
                     (let [cur-observation (first rem-observations)]
@@ -53,24 +49,20 @@
                                                                                          [cur-state cur-observation])]
                                                                           p
                                                                           0)
-                                                                        (reduce max (vals A*T))))
-                                 (assoc T2 [cur-state cur-observation] (get (arg-max A*T) 0))))
+                                                                        (reduce max (vals A*T))))))
                         ;; No more states, I Go to the next Observation, I resume from the first state
                         (recur  (rest rem-observations)
                                 cur-observation
                                 states
-                                T1
-                                T2)))
-                    ;; End of observations, I return
-                    [T1 T2]))]
+                                T1)))
 
-    (loop [rem-observations (reverse observations)
-           X (-> (get-column-m T1 (first rem-observations))
-                 arg-max
-                 (get 0))
-           res '()]
-      (if (seq rem-observations)             
-        (recur (rest rem-observations)
-               (get T2 [X (first rem-observations)])
-               (conj res X))
-        (into [] res)))))
+                    [T1]))]
+
+                  (loop [rem-observations  observations
+                         res []]
+                    (if (seq rem-observations)             
+                      (recur (rest rem-observations)
+                             (conj res (-> (get-column-m T1 (first rem-observations))
+                                           arg-max
+                                           (get 0))))
+                      (into [] res)))))

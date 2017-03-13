@@ -11,13 +11,21 @@
 
 (defn get-row
   "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
-  [matrix column]
+  [matrix row]
   (->> matrix
-       (filter #(= (get (key %) 0) column))
+       (filter #(= (get (key %) 0) row))
        (into {})))
+
+(defn arg-max
+  "gives the key that yields the maximum value"
+  [coll]
+  (apply max-key (into [coll] (keys coll))))
+
 
 
 (def get-column-m (memoize get-column))
+(def get-row-m (memoize get-row))
+(def arg-max-m (memoize arg-max))
 
 (defn load-resource-as-str
   [resource]

@@ -29,7 +29,7 @@
 (def sample-pos-tagger-fn (partial viterbi sample-model))
 
 
-(def fr-v-pos-tagger-fn (partial viterbi fr-tb-model))
+(def fr-v-tb-pos-tagger-fn (partial viterbi fr-tb-model))
 
 ;; Todo : create the tokenizer ns
 (def sample-tokenizer-fn #(clojure.string/split % #"\s"))
@@ -70,13 +70,29 @@
                            #{:get-value #{"NC"}}
                            
                            :qualif
-                           #{:multi :get-value #{"ADJ"}}]}])
+                           #{:multi :get-value #{"ADJ"}}]}
+                   {;;Rule TB French "je suis heureux."
+                    :id :sample-rule-tb-french
+                    :rule [:qui       ;;<----- A atep
+                           #{:get-value #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)                           
+                           :mood
+                           #{#{"V"}}
+                           #{:get-value #{"ADJ"}}]}
+                   ])
 
 
 (deftest sample-rules-pass
   (testing "Je tue une mouche doit retourner P V D N")
   (is (=  {:sujet["Je"] :action ["tue"], :objet ["pomme"]}
-          (-> (parse-tags-rules sample-tokenizer-fn sample-pos-tagger-fn sample-rules "Je tue une pomme" [])
+          (-> (parse-tags-rules sample-tokenizer-fn sample-pos-tagger-fn  sample-rules "Je tue une pomme" [])
               (get-in [:result :data])))))
+
+(deftest fr-tb-rules-pass
+  (testing " Je suis heureux doit retourner CLS V ADJ")
+  (is (=  {:qui["je"] :mood ["heureux"]}
+          (-> (parse-tags-rules sample-tokenizer-fn fr-v-tb-pos-tagger-fn sample-rules  "je suis heureux" [])
+              (get-in [:result :data])))))
+
+
 
 
