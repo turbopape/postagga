@@ -74,12 +74,12 @@ your natural text. **postagga** relies on Hidden Markov Models,
 computed with
 the
 [Viterbi  Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm). This
-algorithm relies on a set of matrices, like what states (the POS Tags)
+algorithm makes use of a set of matrices, like what states (the POS Tags)
 we have, how likely do we transition from one POS tag to another,
 etc...
 
 All of these constitute a **model**. And these are computed out of what we
-call an **annotated text corpus**. The **trainer** namespace is used create models
+call an **annotated text corpus**. The **postagga.trainer** namespace is used create models
 out of such annoateted text corpus.
 To train a model, make sure you have an annotated corpus like so:
 
@@ -96,7 +96,7 @@ in a var unsurprisingly named **corpus***. To train a **model**, just issue:
 ```clojure
 (require '[postagga.trainer :refer [train]]
 
-(def model (train corpus)) ;;<- beware, these can be large vars so avoid realizing all of them like printing in your REPL !!!
+(def model (train corpus)) ;;<- Beware, these can be large vars so avoid realizing all of them like printing in your REPL!!!
 ```
 
 We processed two annotated corpora for french:
@@ -112,15 +112,15 @@ We processed two annotated corpora for french:
     
 The suite of tools used to process these two corpora are in
 the [corpuscule project](https://github.com/turbopape/corpuscule). 
-Please refer to the licensing of these corpora to see to what
-extent you can use derived work from them.
+**Please refer to the licensing of these corpora to see to what
+extent you can use derived work from them.**
 
-We already trained two models out of these two french corpora:
+We then trained two models out of these two french corpora:
 - [fr_sequoia_pos_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_sequoia_pos_v_model.edn)
 - [fr_tb_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_tb_v_model.edn)
       
     
-Now you can use the model to assign POS tags to speech:
+Now you can use that **model** to assign POS tags to speech:
 (sentences must be fed in the form of a vector of all small-case
 tokens):
 ```clojure
@@ -134,11 +134,12 @@ tokens):
 
 Now you have your tagger trained, you can use a parser to drill the
 information from your sentences. For our last example, say you want
-**postagga** to understand how you feel. It can do this by detecting
+**postagga** to understand how you currently feel, or how do you look... It can be done by detecting
 the first token as being a Subject - **CLS**, doing a verb - **V** and
 then having an Adjective **ADJ**. We want to detect who is having what
 adjective in our sentence.
 For this, we'll use the **postagga.parser** namespace.
+
 First of all, require the namespace:
 
 ```clojure
@@ -146,7 +147,7 @@ First of all, require the namespace:
 ```
 
 Then, you'll need to specify rules for the parser. We want to grab the
-word tagged as **CLS** and the word tagged as *ADJ* as our
+word tagged as **CLS** and the word tagged as **ADJ** as our
 infomation. Here's what the parser rules look like:
 
 ```clojure
@@ -154,19 +155,18 @@ infomation. Here's what the parser rules look like:
                     :id :sample-rule-tb-french
                     :optional-steps []
                     :rule [:qui       ;;<----- A atep
-                    #{:get-value #{"CLS"}} ;;<----- A state in the parse machine
+                           #{:get-value #{"CLS"}} ;;<----- A state in the parse machine
                                            ;;i.e, a set of possible sets of POS TAGS                           
-                    :mood
-                    #{#{"V"}}
-                    #{:get-value #{"ADJ"}}]}]
+                           :mood
+                           #{#{"V"}}
+                           #{:get-value #{"ADJ"}}]}]
 ```
 This deserves some explanation before we carry on with our example.
 
-The parser is basically a state machine. It goes through steps *[:qui, :mood]*, with each step encompassing multiple
-states *[#{#{"V}} ...]*. A state basically refers to words; it is matched with tag sets
+The parser is basically a state machine. It goes through **steps** *([:qui, :mood])*, with each step encompassing multiple
+**states** *([#{#{"V}} ...])*. A **state** basically refers to words; it is matched with tag sets
 (A word can very well relate to mutiple tags, if your preferred tagger wants to !!). 
-Different tag sets can be assigned to a state. For instance, to say that in this state we want a Noun or an
-Adjective, you can put:
+Different tag sets can be assigned to a **state**. For instance, to say that in some **state** we require either a *Noun("NPP")* or a *Verb("V")*, you might put:
 
 ```clojure
 ;...
@@ -174,20 +174,22 @@ Adjective, you can put:
 ;...
 ```
 
-putting the keyword **:get-value** in a state tells the parser to grab the word having
-led to this state and to put in the yielded parse map, under a key representing
-the step in which that state was in. Confusing, isn,t it? You'll get it with an example. Look at our rule above. 
-Somewhere we have:
+Putting the keyword **:get-value** in a **state** tells the parser to grab the word having
+led to this state and to put in the yielded parse map, assigning it to a key representing
+the **step** in which that state was in. Confusing, isn't it? :confused:
+You'll get it with an example. Look at our rule above. 
+
+Let's say that somewhere we have:
 
 ```clojure
 [:qui ; <-- A step
-;;..
-{:get-value #{"CLS"}} ;;<-- A state with :get-value under the :qui step
-;;..
+;;...
+   {:get-value #{"CLS"}} ;;<-- A state with :get-value under the :qui step
+;;...
 ]
 ```
 The value of the word that yielded the tag **CLS**  - which is **je** in our example, will be reflected on the
-output map as an entry in the vector associated with the related step,which is **qui** :
+output map as an entry in some vector associated with the related step,which is **qui** :
 
 ```clojure
 {:qui ["je"]}
@@ -204,9 +206,15 @@ using the **:multi** keyword. If you say in certain state:
 #{:get-value :multi #{"ADJ"}
 ;...
 ```
+And if you feed **postagga** the following tokenized sentence:
+
+```clojure
+["il" "parait" "beau" "grand" "heureux"]
+```
+
 You'll find in the parse map:
 ```clojure
-{:some-step ["beau" "laid" "intelligent"]}
+{:some-step ["beau" "grand" "heureux"]}
 ```
 
 the **:optional-steps** stanza tells the parser not to raise an error if a step
@@ -218,6 +226,7 @@ develop a full fledged couple with language-specific rules, we can
 just start by a naive one that splits strings using space characters:
 
 ```clojure
+;; Hey, this one works only on Clojure (JVM) version !!
 (def sample-tokenizer-fn #(clojure.string/split % #"\s"))
 ```
 
