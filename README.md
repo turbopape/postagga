@@ -177,7 +177,8 @@ Different tag sets can be assigned to a **state**. For instance, to say that in 
 Putting the keyword **:get-value** in a **state** tells the parser to grab the word having
 led to this state and to put in the yielded parse map, assigning it to a key representing
 the **step** in which that state was in. Confusing, isn't it? :confused:
-You'll get it with an example. Look at our rule above. 
+
+You'll get it with an example.
 
 Let's say that somewhere we have:
 
