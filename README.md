@@ -22,12 +22,21 @@ from clojars - in your dependencies in **project.clj**, just add:
 [postagga "0.2.2"]
 ```
 
-If you want to play with the models hosted in the repository, feel
-free to clone the project:
+You can also clone the project and walk around the source and models:
 
 ```ssh
 git clone https://github.com/turbopape/postagga.git
 ```
+
+The models are included as resources in the released jar. You can access them using **clojure.java.io/resource** like so:
+
+```clojure
+;...
+;; open a file using a model as a resource:
+ (clojure.java.io/resource "postagga-tb-fr.edn")
+;;... 
+```
+
 # How does it work?
 
 To do its magic, **postagga** extracts the *phrase structure* of your input, and tries to find how do this structure compare to its many semantic rules and if it finds a match, where in this structure shall he extract meaningful information.
