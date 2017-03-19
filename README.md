@@ -19,7 +19,7 @@ you can refer **postagga** as a lib in your clojure project. Grab it
 from clojars - in your dependencies in **project.clj**, just add:
 
 ```clojure
-[postagga "0.2.2"]
+[postagga "0.2.3"]
 ```
 
 You can also clone the project and walk around the source and models:
