@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.2.3] - 2017-03-13
+### Added 
+- Annotated english corpus based on the [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/)
+
 ## [0.2.2] - 2017-03-13
 ### Fixed
 - in tagger.cljc: removed an irrelevant destructuring.

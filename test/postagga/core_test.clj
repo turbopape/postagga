@@ -11,6 +11,7 @@
 
 (def fr-seq-model (load-edn-from-resource "fr_sequoia_pos_v_model.edn"))
 (def fr-tb-model (load-edn-from-resource "fr_tb_v_model.edn"))
+(def en-fn-model (load-edn-from-resource "en_fn_v_model.edn"))
 
 (def sample-model ; as trained by train in trainer.clj
   {:states #{"P" "V" "N" "D"},

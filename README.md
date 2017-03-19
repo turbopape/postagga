@@ -99,7 +99,11 @@ in a var unsurprisingly named **corpus***. To train a **model**, just issue:
 (def model (train corpus)) ;;<- Beware, these can be large vars so avoid realizing all of them like printing in your REPL!!!
 ```
 
-We processed two annotated corpora for french:
+We processed one annotated corpus for English:
+- [postagga-fn-en.edn](https://github.com/turbopape/postagga/blob/master/resources/postagga-fn-en.edn)
+  Generated from the [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/)
+
+We also processed two annotated corpora for French:
 - [postagga-sequoia-fr.edn](https://github.com/turbopape/postagga/blob/master/resources/postagga-sequoia-fr.edn)
     Generated from
     the
@@ -115,7 +119,11 @@ the [corpuscule project](https://github.com/turbopape/corpuscule).
 **Please refer to the licensing of these corpora to see to what
 extent you can use derived work from them.**
 
-We then trained two models out of these two french corpora:
+We then trained a  model out of the above English corpus:
+
+- [en_fn_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/en_fn_v_model.edn)
+
+... and two models out of these two French corpora:
 - [fr_sequoia_pos_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_sequoia_pos_v_model.edn)
 - [fr_tb_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_tb_v_model.edn)
       
