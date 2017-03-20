@@ -243,7 +243,11 @@ Back to our sample. With **sample-rules** holding a set of rules as defined abov
 you can parse your sentence like so:
 
 ```clojure
-(def parse-result (parse-tags-rules sample-tokenizer-fn fr-v-tb-pos-tagger-fn sample-rules  "je suis heureux"))
+(def parse-result (parse-tags-rules 
+                   sample-tokenizer-fn      ;; The tokenizer function.
+                   (partial viterbi model)  ;; The tagger function - curried with a model
+                   sample-rules             ;; The parser rules.
+                   "je suis heureux"))      ;; The sentence to parse. 
 ```
 And you'd have a detailed result like so:
 
