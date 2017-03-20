@@ -82,8 +82,7 @@
                            #{:get-value #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)                           
                            :mood
                            #{#{"V"}}
-                           #{:get-value #{"ADJ"}}]}
-                   ])
+                           #{:get-value #{"ADJ"}}]}])
 
 
 (deftest sample-rules-pass

@@ -91,7 +91,7 @@ To train a model, make sure you have an annotated corpus like so:
 ```
 
 say you have this corpus - that is : a vector of annotated sentences
-in a var unsurprisingly named **corpus***. To train a **model**, just issue:
+in a var unsurprisingly named **corpus**. To train a **model**, just issue:
 
 ```clojure
 (require '[postagga.trainer :refer [train]]
@@ -261,7 +261,7 @@ And you'd have a detailed result like so:
 
 The errors will be reported as a collection mapping each rule to what
 step and state did the parser fail. This can be quite large, so be
-carefule not to spit the contents of the result directly in your REPL,
+careful not to spit the contents of the result directly in your REPL,
 you can test on the **:errors** being _nil_ and work with the
 **:data** value:
 

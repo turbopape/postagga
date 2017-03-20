@@ -2,7 +2,7 @@
 
 ## [0.2.3] - 2017-03-13
 ### Added 
-- Annotated english corpus based on the [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/)
+- Annotated english corpus based on the [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/).
 
 ## [0.2.2] - 2017-03-13
 ### Fixed
@@ -14,7 +14,7 @@
 
 ### Changed
 - :optional-steps are now specified in the rules. No more passing in
-  the parser functions.  
+  the parser functions.
 
 ### Fixed
 - Fixed the Viterbi implemetntion. We don't need T2, we have the
