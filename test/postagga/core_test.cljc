@@ -5,13 +5,14 @@
             [postagga.tools :refer [load-edn-from-resource get-row get-column]]
             [postagga.parser :refer [parse-tags-rules]]
             [postagga.tagger :refer [viterbi]]
-            [postagga.en-fn-model :as fr]))
+            [postagga.en-fn-v-model :as en]
+            [postagga.fr-tb-v-model :as fr]))
 
 ;; Here we force the use of a model, but in trainer.clj we have the
 ;; means to create such a model
 
 ;; In Clojure / JVM
-;; For Sequoia Model: Too Heavy (~ @MB) - not created an ns - can't be efficiently shipped !
+;; For Sequoia Model: Too Heavy (~ 2 MB) - not created an ns - can't be efficiently shipped !
 #_(def fr-model (load-edn-from-resource "fr_sequoia_pos_v_model.edn"))
  
 
