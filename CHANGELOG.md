@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.2.3] - 2017-03-13
+## [0.2.3] - 2017-03-19
 ### Added 
 - Annotated english corpus based on the [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/).
 
