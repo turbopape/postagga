@@ -28,7 +28,9 @@ You can also clone the project and walk around the source and models:
 git clone https://github.com/turbopape/postagga.git
 ```
 
-The models are included as resources in the released jar. You can access them using **clojure.java.io/resource** like so:
+The models are included as resources in the released jar. 
+
+In JVM Clojure, You can access them using **clojure.java.io/resource** like so:
 
 ```clojure
 ;...
@@ -36,7 +38,17 @@ The models are included as resources in the released jar. You can access them us
  (clojure.java.io/resource "postagga-tb-fr.edn")
 ;;... 
 ```
+In ClojureScript, there is no such thing as a resource. To be able to
+ship your parsers, we created two namespaces defining the models for
+you to embed in your code. We shipped two light models, one for
+French and one for English, as for JavaScript, the artifacts size are
+a concern. You can use these models by requiring the two namespaces:
 
+- **en_fn_model**
+- **fr_tb_model**
+
+You can see a sample about how to work with these models exposed as
+vars under namespaces in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
 # How does it work?
 
 To do its magic, **postagga** extracts the *phrase structure* of your input, and tries to find how do this structure compare to its many semantic rules and if it finds a match, where in this structure shall he extract meaningful information.
@@ -101,7 +113,9 @@ in a var unsurprisingly named **corpus**. To train a **model**, just issue:
 
 We processed one annotated corpus for English:
 - [postagga-fn-en.edn](https://github.com/turbopape/postagga/blob/master/resources/postagga-fn-en.edn)
-  Generated from the [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/)
+  Generated from
+  the
+  [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/)
 
 We also processed two annotated corpora for French:
 - [postagga-sequoia-fr.edn](https://github.com/turbopape/postagga/blob/master/resources/postagga-sequoia-fr.edn)
@@ -114,6 +128,14 @@ We also processed two annotated corpora for French:
     the
     [Free French tree Bank](https://github.com/nicolashernandez/free-french-treebank).
     
+We exposed two of these models as clojure namespaces so you can embed
+them without using the **resource** functionality - as it is specific
+to Clojure(JVM). We chose the two lightest ones, so they might not
+cause network issues:
+
+- [French Model as a namespace: postagga.fr_tb_model](https://github.com/turbopape/postagga/blob/master/src/postagga/fr_tb_model.cljc)
+- [English Model as a namespace: postagga.en_fn_model](https://github.com/turbopape/postagga/blob/master/src/postagga/en_fn_model.cljc)
+
 The suite of tools used to process these two corpora are in
 the [corpuscule project](https://github.com/turbopape/corpuscule). 
 **Please refer to the licensing of these corpora to see to what
@@ -273,7 +295,7 @@ you can test on the **:errors** being _nil_ and work with the
 
 # Complete list of features
 You can see some of this workflow (other than the training) in the
-[Tests](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.clj).
+[Tests](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
 
 Please refer to the [Changelog](https://github.com/turbopape/postagga/blob/master/CHANGELOG.md) to see included features per version.
 

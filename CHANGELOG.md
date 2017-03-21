@@ -1,4 +1,13 @@
 # Change Log
+## [0.2.4] - 2017-03-21
+### Fixed
+- arg-max was no more referred to in tagger.cljc. Switched to
+  arg-max-m.
+
+### Added
+- Two cljs friendly models as cljc namespaces: en_fn_model.cljc and
+  fr_tb_model.cljc.
+- core_test is now a cljc file.
 
 ## [0.2.3] - 2017-03-19
 ### Added 

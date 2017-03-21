@@ -2,8 +2,7 @@
 ;; Licensed under the terms of the MIT License
 
 (ns postagga.parser
-  (:require [postagga.tagger :refer [viterbi]]
-            [stemmer.snowball :as snowball]))
+  (:require [postagga.tagger :refer [viterbi]]))
 
 (defn matches?
   [input-item ; item : ["word" "postag"]

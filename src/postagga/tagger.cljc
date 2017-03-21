@@ -63,6 +63,6 @@
       (if (seq rem-observations)             
         (recur (rest rem-observations)
                (conj res (-> (get-column-m T1 (first rem-observations))
-                             arg-max
+                             arg-max-m
                              (get 0))))
         (into [] res)))))
