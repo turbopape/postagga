@@ -18,9 +18,7 @@ you'll be able to do this easily. You're welcome.
 you can refer **postagga** as a lib in your clojure project. Grab it
 from clojars - in your dependencies in **project.clj**, just add:
 
-```clojure
-[postagga "0.2.3"]
-```
+[![Clojars Project](https://img.shields.io/clojars/v/postagga.svg)](https://clojars.org/postagga)
 
 You can also clone the project and walk around the source and models:
 
