@@ -27,9 +27,9 @@
 (def get-row-m (memoize get-row))
 (def arg-max-m (memoize arg-max))
 
-#?(:clj (defn load-resource-as-str
-          [resource]
-          (with-open [rdr (clojure.java.io/reader (clojure.java.io/resource resource))]
+#?(:clj (defn load-file-as-str
+          [file]
+          (with-open [rdr (clojure.java.io/reader file)]
             (loop [lines (line-seq rdr)
               txt ""]
               (if (seq lines)
@@ -37,8 +37,8 @@
                        (str txt (first lines)))
                 txt)))))
 
-#?(:clj (defn load-edn-from-resource
-          [resource]
-          (let [resource-str (load-resource-as-str resource)]
-            (edn/read-string resource-str))))
+#?(:clj (defn load-edn
+          [file]
+          (let [file-str (load-file-as-str file)]
+            (edn/read-string file-str))))
   

@@ -26,7 +26,7 @@ You can also clone the project and walk around the source and models:
 git clone https://github.com/turbopape/postagga.git
 ```
 
-The models are included as resources in the released jar. 
+The models are included under the [models folder](https://github.com/turbopape/postagga/blob/master/models). 
 
 In JVM Clojure, You can access them using **clojure.java.io/resource** like so:
 

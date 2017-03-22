@@ -2,11 +2,11 @@
 ;;Distributed under the MIT License
 (ns postagga.core-test
   (:require [clojure.test :refer :all]
-            [postagga.tools :refer [load-edn-from-resource get-row get-column]]
+            [postagga.tools :refer [load-edn get-row get-column]]
             [postagga.parser :refer [parse-tags-rules]]
             [postagga.tagger :refer [viterbi]]
-            [postagga.en-fn-v-model :as en]
-            [postagga.fr-tb-v-model :as fr]))
+            #?(:cljs [postagga.en-fn-v-model :refer [en-model]])
+            #?(:cljs [postagga.fr-tb-v-model :refer [fr-model]])))
 
 ;; Here we force the use of a model, but in trainer.clj we have the
 ;; means to create such a model
@@ -17,12 +17,10 @@
  
 
 ;; For French Treebank model: First line in clj(JVM), second one in both clj/cljs
-#?(:clj (def fr-model (load-edn-from-resource "fr_tb_v_model.edn"))
-   :cljs (def fr-model en/model))
+#?(:clj (def fr-model (load-edn "models/fr_tb_v_model.edn")))
 
 ;; For English/Framenet: First line in clj(JVM), second one in both clj/cljs
-#?(:clj (def en-model (load-edn-from-resource "en_fn_v_model.edn"))
-   :cljs (def en-model en/model))
+#?(:clj (def en-model (load-edn "models/en_fn_v_model.edn")))
 
 ;; How does a model look like?
 (def sample-model ; as trained by train in trainer.clj
