@@ -18,11 +18,11 @@
 
 ;; For French Treebank model: First line in clj(JVM), second one in both clj/cljs
 #?(:clj (def fr-model (load-edn-from-resource "fr_tb_v_model.edn"))
-   :cljs (def fr-model (en/model)))
+   :cljs (def fr-model en/model))
 
 ;; For English/Framenet: First line in clj(JVM), second one in both clj/cljs
 #?(:clj (def en-model (load-edn-from-resource "en_fn_v_model.edn"))
-   :cljs (def en-model (fr/model)))
+   :cljs (def en-model en/model))
 
 ;; How does a model look like?
 (def sample-model ; as trained by train in trainer.clj
