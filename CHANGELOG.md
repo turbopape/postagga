@@ -1,12 +1,12 @@
 # Change Log
 ## [0.2.5] - 2017-03-22
-## Changed
+### Changed
 - Moved models out of resourcs into a specific folder, so they are not
   packaged in the jar - light in clojurescript(in which you'd use the
   namespaces)
 - changed var names in model so they can be used easily in :refer.  
 
-## Fixed
+### Fixed
 - edn... etc in the tools.cljc - now only in clj. (use :refer)
 - using :refer in core_tests.cljc
 
