@@ -34,9 +34,7 @@ In JVM Clojure, provided you have cloned the repository:
  (def fr-model (load-edn "models/fr_tb_v_model.edn")) ;; for French for instance
 ;; ... 
 ```
-In ClojureScript, there is no such thing as a resource. To be able to
-ship your parsers, we created two namespaces defining the models for
-you to embed in your code. We shipped two light models, one for
+We also shipped two light models as vars defined in namespaces, one for
 French and one for English, as for JavaScript, the artifacts size are
 a concern. You can use these models by requiring the two namespaces:
 
@@ -47,6 +45,7 @@ a concern. You can use these models by requiring the two namespaces:
    ;; ...
    
 ```
+These namespaces make it easy for you to ship parsers for ClojureScript.
 
 You can see a example on how to work with these model, all while
 making sure your code is cmpatible acrosss Clojure AND ClojureScript
