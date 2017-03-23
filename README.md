@@ -114,18 +114,18 @@ in a var unsurprisingly named **corpus**. To train a **model**, just issue:
 ```
 
 We processed one annotated corpus for English:
-- [postagga-fn-en.edn](https://github.com/turbopape/postagga/blob/master/resources/postagga-fn-en.edn)
+- [postagga-fn-en.edn](https://github.com/turbopape/postagga/blob/master/models/postagga-fn-en.edn)
   Generated from
   the
   [Framenet Project](https://framenet.icsi.berkeley.edu/fndrupal/)
 
 We also processed two annotated corpora for French:
-- [postagga-sequoia-fr.edn](https://github.com/turbopape/postagga/blob/master/resources/postagga-sequoia-fr.edn)
+- [postagga-sequoia-fr.edn](https://github.com/turbopape/postagga/blob/master/models/postagga-sequoia-fr.edn)
     Generated from
     the
     [Sequoia Corpus from INRIA](https://www.rocq.inria.fr/alpage-wiki/tiki-index.php?page=CorpusSequoia).
     
-- [postagga-tb-fr.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_tb_v_model.edn)
+- [postagga-tb-fr.edn](https://github.com/turbopape/postagga/blob/master/models/fr_tb_v_model.edn)
     Generated from
     the
     [Free French tree Bank](https://github.com/nicolashernandez/free-french-treebank).
@@ -145,11 +145,11 @@ extent you can use derived work from them.**
 
 We then trained a  model out of the above English corpus:
 
-- [en_fn_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/en_fn_v_model.edn)
+- [en_fn_v_model.edn](https://github.com/turbopape/postagga/blob/master/models/en_fn_v_model.edn)
 
 ... and two models out of these two French corpora:
-- [fr_sequoia_pos_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_sequoia_pos_v_model.edn)
-- [fr_tb_v_model.edn](https://github.com/turbopape/postagga/blob/master/resources/fr_tb_v_model.edn)
+- [fr_sequoia_pos_v_model.edn](https://github.com/turbopape/postagga/blob/master/models/fr_sequoia_pos_v_model.edn)
+- [fr_tb_v_model.edn](https://github.com/turbopape/postagga/blob/master/models/fr_tb_v_model.edn)
       
     
 Now you can use that **model** to assign POS tags to speech:
@@ -161,6 +161,9 @@ tokens):
 (viterbi model ["je" "suis" "heureux"])
 ;;=> ["CLS" "V" "ADJ"]
 ```
+
+A reference to the meaning of tags are provided:
+- for [English](https://github.com/turbopape/postagga/blob/master/models/en_penn_tb_tags.md)
 
 ## Using the tagger to parse free speech
 
