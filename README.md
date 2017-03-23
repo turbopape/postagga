@@ -48,8 +48,9 @@ a concern. You can use these models by requiring the two namespaces:
    
 ```
 
-You can see a sample about how to work with these models exposed as
-vars under namespaces - as well as w possible way to write code that is portable for Clojure AND ClojureScipt in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
+You can see a example on how to work with these model, all while
+making sure your code is cmpatible acrosss Clojure AND ClojureScipt
+(thanks to readers' conditional) in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
 
 # How does it work?
 
