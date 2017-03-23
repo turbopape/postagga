@@ -49,7 +49,7 @@ a concern. You can use these models by requiring the two namespaces:
 ```
 
 You can see a example on how to work with these model, all while
-making sure your code is cmpatible acrosss Clojure AND ClojureScipt
+making sure your code is cmpatible acrosss Clojure AND ClojureScript
 (thanks to readers' conditional) in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
 
 # How does it work?
