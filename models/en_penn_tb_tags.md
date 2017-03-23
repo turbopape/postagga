@@ -1,4 +1,4 @@
-#The Penn Treebank tags explained
+# The Penn Treebank tags explained
 
 - CC Coordinating conjunction
 - CD Cardinal number
