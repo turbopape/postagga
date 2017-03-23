@@ -28,13 +28,11 @@ git clone https://github.com/turbopape/postagga.git
 
 The models are included under the [models folder](https://github.com/turbopape/postagga/blob/master/models). 
 
-In JVM Clojure, You can access them using **clojure.java.io/resource** like so:
-
+In JVM Clojure, provided you have cloned the repository:
 ```clojure
-;...
-;; open a file using a model as a resource:
- (clojure.java.io/resource "postagga-tb-fr.edn")
-;;... 
+;; ...
+ (def fr-model (load-edn "models/fr_tb_v_model.edn")) ;; for French for instance
+;; ... 
 ```
 In ClojureScript, there is no such thing as a resource. To be able to
 ship your parsers, we created two namespaces defining the models for
@@ -42,11 +40,17 @@ you to embed in your code. We shipped two light models, one for
 French and one for English, as for JavaScript, the artifacts size are
 a concern. You can use these models by requiring the two namespaces:
 
-- **en_fn_model**
-- **fr_tb_model**
+```clojure
+  (ns your-cool.bot
+   (: require [postagga.en-fn-v-model :refer [en-model]] ;; for English
+              [postagga.fr-tb-v-model :refer [fr-model]])) ;; for French 
+   ;; ...
+   
+```
 
 You can see a sample about how to work with these models exposed as
-vars under namespaces in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
+vars under namespaces - as well as w possible way to write code that is portable for Clojure AND ClojureScipt in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
+
 # How does it work?
 
 To do its magic, **postagga** extracts the *phrase structure* of your input, and tries to find how do this structure compare to its many semantic rules and if it finds a match, where in this structure shall he extract meaningful information.
