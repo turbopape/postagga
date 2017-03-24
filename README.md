@@ -4,7 +4,8 @@
 [![Gratipay](https://img.shields.io/gratipay/turbopape.svg)](https://gratipay.com/turbopape/)
 [![Clojars Project](https://img.shields.io/clojars/v/postagga.svg)](https://clojars.org/postagga)
 
-<img src="./logo.png" alt="postagga logo" title="postagga on da mix" align="right"/>
+<img src="./logo.png" alt="postagga logo" 
+title="postagga on da mix" align="right"/>
  
 > "But if thought corrupts language, language can also corrupt thought."
 - George Orwell, 1984
