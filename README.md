@@ -323,7 +323,7 @@ Copyright (c) 2017 [Rafik Naccache](mailto:rafik@fekr.tech).
 
 Happily brought to you by [fekr](http://fekr.tech).
 
-The Logo is created by my talented friend the great [Chakib Daoud](https://www.facebook.com/3amettaher/?fref=ts);
+The Logo is created by my talented friend the great [Chakib Daoud](https://www.facebook.com/3amettaher/?fref=ts)
 
 Distributed under the terms of the [MIT License]("http://opensource.org/licenses/MIT).
 
