@@ -321,7 +321,7 @@ participating in this project you agree to abide by its terms.
 
 Copyright (c) 2017 [Rafik Naccache](mailto:rafik@fekr.tech).
 
-Happily brought to you by [fekr](http://fekr.tech).
+Happily brought to you by [fekr](http://www.fekr.tech).
 
 The Logo is created by my talented friend the great [Chakib Daoud](https://www.facebook.com/3amettaher/?fref=ts)
 
