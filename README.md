@@ -4,8 +4,7 @@
 [![Gratipay](https://img.shields.io/gratipay/turbopape.svg)](https://gratipay.com/turbopape/)
 [![Clojars Project](https://img.shields.io/clojars/v/postagga.svg)](https://clojars.org/postagga)
 
-<img src="./logo.png" alt="postagga logo" 
-title="postagga on da mix" align="right"/>
+<img src="./logo.png" alt="postagga logo" title="postagga on da mix" align="right"/>
  
 > "But if thought corrupts language, language can also corrupt thought."
 - George Orwell, 1984
@@ -368,9 +367,9 @@ participating in this project you agree to abide by its terms.
 
 Copyright (c) 2017 [Rafik Naccache](mailto:rafik@fekr.tech).
 
-Happily brought to you by [fekr](http://fekr.tech).
+Happily brought to you by [fekr](http://www.fekr.tech).
 
-The Logo is created by my talented friend the great [Chakib Daoud](https://www.facebook.com/3amettaher/?fref=ts);
+The Logo is created by my talented friend the great [Chakib Daoud](https://www.facebook.com/3amettaher/?fref=ts)
 
 Distributed under the terms of the [MIT License]("http://opensource.org/licenses/MIT).
 
