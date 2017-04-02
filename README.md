@@ -164,9 +164,32 @@ tokens):
 (viterbi model ["je" "suis" "heureux"])
 ;;=> ["CLS" "V" "ADJ"]
 ```
+### Patching Viterbi's Output
 
-A reference to the meaning of tags are provided:
-- for [English](https://github.com/turbopape/postagga/blob/master/models/en_penn_tb_tags.md)
+When the tagger encounters a word it doesn't know about- that is, was
+not in the corpus used to generate the viterbi models - it arbitrarily
+assigns a tag - more or less randomly picked by the algorithm. To 
+somehow enhance a bit the detection, it is possible to *patch* the output,
+that is, look up a dictionary of attributes and force the tags
+accordingly. For instance, given you have a dictionary for
+proper nouns in a given language, you can patch your HMM generated
+POS-tags by forcing every word happening to be an entry for this
+dictionary to have the "NPP" tag.
+
+We provide two dictionaries for proper nouns:
+- [fr_tr_names.cljc](https://github.com/turbopape/postagga/blob/master/src/postagga/fr_tr_names.cljc) for French,
+- [en_tr_names.cljc](https://github.com/turbopape/postagga/blob/master/src/postagga/en_tr_names.cljc) for English. 
+
+You can see how you can integrate patching in the parsing phase
+hereafter.
+
+Technically, dictionaries are [tries](https://en.wikipedia.org/wiki/Trie) to speed up lookup for multiple
+entries. But this may evolve during time and should be considered as
+mere details implementation.
+
+### Meaning of tags
+A reference to the meaning of tags is provided:
+- For [English](https://github.com/turbopape/postagga/blob/master/models/en_penn_tb_tags.md)
 
 ## Using the tagger to parse free speech
 
@@ -299,6 +322,29 @@ you can test on the **:errors** being _nil_ and work with the
 ;; Do something with
 (:data parse-result)
  
+```
+
+To integrate patching, as discussed above to the parsing, you can
+proceed as follows:
+
+```clojure
+(def patch-fr-tagger-w-name ;;<- a function that wraps viterbi into a
+                            ;; "patched" version
+  #(patch-w-entity  0.9 % en-names-trie
+                    ;; Takes a sentence, computes tags with viterbi
+                    ;; and afterwards, looks if the words are close
+                    ;; enough to entries in the french names
+                    ;; dictionary, in which cas it will force them to
+                    ;; have "NC" tag 
+                    (viterbi fr-model %)
+                    "NC"))
+;;=> #'postagga.core-test/patch-fr-tagger-w-name                    
+
+(-> (parse-tags-rules sample-tokenizer-fn 
+                      patch-fr-tagger-w-name 
+                      sample-rules "nicolas est heureux")
+              (get-in [:result :data]))
+;;=> {:qui["nicolas"] :mood ["heureux"]}              
 ```
 
 # Complete list of features

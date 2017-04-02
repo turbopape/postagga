@@ -27,6 +27,30 @@
 (def get-row-m (memoize get-row))
 (def arg-max-m (memoize arg-max))
 
+(defn bigrams
+  [input]
+  (set  (map (partial reduce str)
+             (partition 2 1 input))))
+
+(defn similarity
+  [str1 str2]
+  (let [bigrams1 (bigrams str1)
+        bigrams2 (bigrams str2)
+        intersection (clojure.set/intersection bigrams1 bigrams2)
+        union (clojure.set/union bigrams1 bigrams2)]
+    (try  (/ (count  intersection)
+             (count  union))
+          (catch #?(:clj Exception :cljs js/Error) e 0))))
+
+(defn are-close-within?
+  [threshold str1 str2]
+  (>= (similarity str1 str2 )
+      threshold))
+
+(defn find-first
+  [f coll]
+  (first (filter f coll)))
+
 #?(:clj (defn load-file-as-str
           [file]
           (with-open [rdr (clojure.java.io/reader file)]

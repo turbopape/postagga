@@ -3,9 +3,8 @@
 ;; A POS Tagger based on the [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
 
 (ns postagga.tagger
-  (:require [postagga.tools :refer [get-column-m get-row-m arg-max-m]]))
-
-
+  (:require [postagga.tools :refer [get-column-m get-row-m arg-max-m are-close-within? find-first]]
+            [postagga.trie :refer [completions]]))
 
 (defn viterbi
   "- states -  in NLP : the tags : [P V ADJ] 
@@ -66,3 +65,28 @@
                              arg-max-m
                              (get 0))))
         (into [] res)))))
+
+
+(defn patch-w-entity
+  "Looks in a entities-db dictionary, if the word in sentence is close enough > threshold
+  patch it with this target-tag, regardless
+  entities-db being a trie, we must call completions and choose the longest one"
+  
+  [threshold sentence entities-db-trie tags target-tag]
+  {:pre [(= (count sentence)
+            (count tags))
+         (vector? sentence)
+         (vector? tags)]}
+  (loop [words sentence
+         rtags tags
+         result-tags []]
+
+    (if (seq words)
+      (recur (rest words)
+             (rest rtags)
+             (conj result-tags (if-let [entity? (find-first
+                                                 #(are-close-within? threshold (first words) %)
+                                                 (completions entities-db-trie (first words)))]
+                                 target-tag
+                                 (first rtags))))
+      result-tags)))

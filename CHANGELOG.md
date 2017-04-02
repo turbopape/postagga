@@ -1,10 +1,19 @@
 # Change Log
+
+## [0.2.6] - 2017-04-02
+### Added
+- Add French and English common names dictionary look-up - we patch
+  final Viterbi tagger results with this dictionary to ensure these
+  names are detected.
+- Add patching samples in tests file.
+- Use tries to efficiently look up dictionaries - may change.
+
 ## [0.2.5] - 2017-03-22
 ### Changed
 - Moved models out of resourcs into a specific folder, so they are not
   packaged in the jar - light in clojurescript(in which you'd use the
   namespaces)
-- changed var names in model so they can be used easily in :refer.  
+- changed var names in model so they can be used easily in :refer.
 
 ### Fixed
 - edn... etc in the tools.cljc - now only in clj. (use :refer)
