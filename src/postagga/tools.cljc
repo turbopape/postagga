@@ -1,6 +1,6 @@
 ;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
 (ns postagga.tools
-  #?(:clj (require [clojure.edn :as edn])))
+  #?(:clj (:require [clojure.edn :as edn])))
 
 (defn get-column
   "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
