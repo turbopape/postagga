@@ -4,6 +4,7 @@
 (ns postagga.parser
   (:require [postagga.tagger :refer [viterbi]]))
 
+
 (defn matches?
   [input-item ; item : ["word" "postag"]
    current-tag-alternatives]
@@ -33,15 +34,21 @@
                                                         :new-stack  tag-stack}
                                                        {:step false
                                                         :new-stack (rest tag-stack)})
-      ;; If I'm here, input-tem does-not match the head of the stack. If the head contains
-      ;; Soemthing :multi, let's see if its following status correspond to our item so we can move forward
+      ;; If I'm here, input-tem does-not match the head of the stack.
+      ;; If the head contains Soemthing :multi,
+      ;; 1. let's see if its following status correspond to our item so we can move forward
+      ;; 2. or if it's a step, then we jump to it
       
-      (contains? current-tag-alternatives :multi) (if (matches? input-item (second tag-stack))
-                                                    {:step false
-                                                     :new-stack (-> tag-stack rest rest)}
-                                                    ;; nope, even the thing after the :multi stage doesn't match.
+      (contains? current-tag-alternatives :multi) (cond
+                                                    (keyword? (second tag-stack)) {:step (second tag-stack)
+                                                                                   :new-stack (rest tag-stack)}
+                                                    
+                                                    (matches? input-item (second tag-stack)) {:step false
+                                                                                              :new-stack
+                                                                                              (-> tag-stack rest rest)}
+                                                    ;; following not a step, and doesn't match.
                                                     ;; that won't do.
-                                                    false)
+                                                    :default false)
       :default false)
     false))
 

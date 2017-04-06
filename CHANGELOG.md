@@ -1,4 +1,12 @@
 # Change Log
+## [0.2.7] - 2017-04-07
+### Fixed
+- Fix a bug in parser causing an error if there's a new step after a
+  multi-capturing status clause in a rule: When there is a step(keyword) after a :multi, don't match, just set
+  current-step and move on.
+  
+### Added
+- Tests for step after multi
 
 ## [0.2.6] - 2017-04-02
 ### Added

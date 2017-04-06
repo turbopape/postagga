@@ -167,12 +167,12 @@ tokens):
 
 When the tagger encounters a word it doesn't know about- that is, was
 not in the corpus used to generate the viterbi models - it arbitrarily
-assigns a tag - more or less randomly picked by the algorithm. To 
-somehow enhance a bit the detection, it is possible to *patch* the output,
-that is, look up a dictionary of attributes and force the tags
+assigns it a tag - more or less randomly picked by the algorithm. To 
+somehow enhance the detection, it is possible to *patch* the output,
+that is, look it up in a dictionary of terms of a known type and force the tags
 accordingly. For instance, given you have a dictionary for
 proper nouns in a given language, you can patch your HMM generated
-POS-tags by forcing every word happening to be an entry for this
+POS-tags by forcing every word happening to be an entry in this
 dictionary to have the "NPP" tag.
 
 We provide two dictionaries for proper nouns:

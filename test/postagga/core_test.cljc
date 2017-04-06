@@ -62,19 +62,22 @@
                            #{:get-value #{"N"}}]}
                    
                    
-                   {;;Rule 0 "Montrez moi les chaussures noires"
+                   {;;Rule 0 "les chaussures noires demain"
                     :id :sample-rule-1
                     :optional-steps []
-                    :rule [:intent       ;;<----- A atep
-                           #{:get-value #{"NPP"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)
-                           #{#{"NC"}}
+                    :rule [
                            
                            :product
                            #{#{"DET"}}
                            #{:get-value #{"NC"}} ;;<- I get this part of speech as a value, will find an entry :product ["Text"]
 
                            :qualif
-                           #{:multi :get-value #{"ADJ"}}]} ;;<- multi: I can get several times this state
+                           #{:multi :get-value #{"ADJ"}}
+
+                           :fin
+                           #{#{"ADV"}}
+                           
+                           ]} ;;<- multi: I can get several times this state
                    
                    {;;Rule 1 "Je cherche une montre analogique"
                     :id :sample-rule-2
@@ -120,20 +123,22 @@
          (-> (parse-tags-rules sample-tokenizer-fn fr-pos-tagger-fn sample-rules  "je suis heureux")
              (get-in [:result :data])))))
 
+
+
 (def patch-en-tagger-w-name
-  #(patch-w-entity  0.9 % en-names-trie
+  #(patch-w-entity  0.8 % en-names-trie
                     (viterbi en-model % )
                     "NPP"))
 
 
 (deftest en-patching-w-names
-  (testing " rafik is glad must give NPP VBZ JJ")
-  (is (= {:qui["rafik"] :mood ["glad"]}
-         (-> (parse-tags-rules sample-tokenizer-fn patch-en-tagger-w-name sample-rules  "rafik is glad")
+  (testing " khawla is glad must give NPP VBZ JJ")
+  (is (= {:qui["khawla"] :mood ["glad"]}
+         (-> (parse-tags-rules sample-tokenizer-fn patch-en-tagger-w-name sample-rules  "khawla is glad")
              (get-in [:result :data])))))
 
 (def patch-fr-tagger-w-name
-  #(patch-w-entity  0.9 % fr-names-trie
+  #(patch-w-entity  0.8 % fr-names-trie
                     (viterbi fr-model % )
                     "NC"))
 
@@ -144,5 +149,10 @@
              (get-in [:result :data])))))
 
 
+(deftest fr-patching-w-names-stuff-after-multi
+  (testing "les chaussures noires blanches demain")
+  (is (= {:product ["chaussures"] :qualif ["noires" "blanches"] :fin []}
+         (-> (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules  "les chaussures noires blanches demain")
+             (get-in [:result :data])))))
 
 
