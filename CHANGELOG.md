@@ -1,4 +1,9 @@
 # Change Log
+## [0.2.8] - 2017-04-07
+### Fixed
+- Fix a bug where a status is get-valued if there is a get-valued
+  multi above even if it's not intended to.
+
 ## [0.2.7] - 2017-04-07
 ### Fixed
 - Fix a bug in parser causing an error if there's a new step after a

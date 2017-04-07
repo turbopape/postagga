@@ -34,6 +34,7 @@
                                                         :new-stack  tag-stack}
                                                        {:step false
                                                         :new-stack (rest tag-stack)})
+      
       ;; If I'm here, input-tem does-not match the head of the stack.
       ;; If the head contains Soemthing :multi,
       ;; 1. let's see if its following status correspond to our item so we can move forward
@@ -41,11 +42,16 @@
       
       (contains? current-tag-alternatives :multi) (cond
                                                     (keyword? (second tag-stack)) {:step (second tag-stack)
-                                                                                   :new-stack (rest tag-stack)}
+                                                                                   :new-stack
+                                                                                   (-> tag-stack rest rest)}
                                                     
-                                                    (matches? input-item (second tag-stack)) {:step false
-                                                                                              :new-stack
-                                                                                              (-> tag-stack rest rest)}
+                                                    (matches? input-item (second tag-stack))(do
+                                                                                              #_(println "in status after multi"
+                                                                                                       input-item " " (second tag-stack)
+                                                                                                       )
+                                                                                              {:step false
+                                                                                                  :new-stack
+                                                                                                  (-> tag-stack rest rest)})
                                                     ;; following not a step, and doesn't match.
                                                     ;; that won't do.
                                                     :default false)
@@ -63,6 +69,7 @@
 
 (defn get-value?
   [stack-item]
+
   (contains? stack-item :get-value))
 
 
@@ -90,25 +97,32 @@
                         (assoc output (get output-stack :step)
                                (get  output-stack :items))))
           
-          (and (not accept?)
-               (some #{(get output-stack :step)}
-                     optional-steps)) (if-let [ffw-stack (fast-forward tag-stack)]
-                                        (recur input-items
-                                               ffw-stack
-                                               output-stack
-                                               output)
-                                        {:error {:step (get output-stack :step)
-                                                 :expected (first tag-stack)
-                                                 :item input-item}})
-          
-          (not accept?) {:error {:output output
+        
+
+          (not accept?) (if (some #{(get output-stack :step)}
+                                  optional-steps)
+                          (if-let [ffw-stack (fast-forward tag-stack)]
+                            (recur input-items
+                                   ffw-stack
+                                   output-stack
+                                   output)
+                            {:error {:step (get output-stack :step)
+                                     :expected (first tag-stack)
+                                     :item input-item}})
+                          {:error {:output output
                                  :step (get output-stack  :step)
-                                 :expected (first tag-stack) :item input-item}}
-          
+                                 :expected (first tag-stack) :item input-item}})
+
+          ;; Here I might just have exited a multi - must recur to remove the last multi one
+          (and accept?
+               (not (contains? (first tag-stack) (get input-item 1)))) (recur input-items
+                                                                            (rest tag-stack)
+                                                                            output-stack
+                                                                            output)                   
           :default (recur (rest input-items)
                           new-stack
                           (if (get-value? (first tag-stack))
-                            (merge-with conj output-stack {:items (get  input-item 0)})
+                            (merge-with conj output-stack {:items (get input-item 0)})
                             output-stack) 
                           output)))
 
@@ -117,12 +131,12 @@
                       (empty? tag-stack))
                  (some #{(first tag-stack)} optional-steps)
                  
-                 (contains? (first tag-stack) :multi)) {:error false
+                 #_(contains? (first tag-stack) :multi)) {:error false
                                                         :result (assoc output (get output-stack :step)
                                                                        (get  output-stack :items))} ;; all good,
             (not (empty? input-items)) {:error "Unable to consume all input."
                                         :input input-items}
-            (not (empty? tag-stack)) {:error "Input does not fulfill all of the tag-stack states."
+            (not (empty? tag-stack)) {:error "Input does not fulfil all of the tag-stack states."
                                       :tag-stack tag-stack}))))
 
 

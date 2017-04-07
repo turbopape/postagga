@@ -73,11 +73,31 @@
 
                            :qualif
                            #{:multi :get-value #{"ADJ"}}
+                          
+                          
 
                            :fin
                            #{#{"ADV"}}
                            
                            ]} ;;<- multi: I can get several times this state
+
+
+                   {;;Rule 0 "les chaussures noires demain"
+                    :id :sample-rule-12
+                    :optional-steps []
+                    :rule [
+                           
+                           :product
+                           #{#{"DET"}}
+                           #{:get-value #{"NC"}} ;;<- I get this part of speech as a value, will find an entry :product ["Text"]
+
+                           :qualif
+                           #{:multi :get-value #{"ADJ"}}
+                           #{#{"CC"}}
+                           #{:get-value #{"ADJ"}}
+                          
+                           :fin
+                           #{#{"ADV"}}]}
                    
                    {;;Rule 1 "Je cherche une montre analogique"
                     :id :sample-rule-2
@@ -149,10 +169,17 @@
              (get-in [:result :data])))))
 
 
-(deftest fr-patching-w-names-stuff-after-multi
-  (testing "les chaussures noires blanches demain")
-  (is (= {:product ["chaussures"] :qualif ["noires" "blanches"] :fin []}
-         (-> (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules  "les chaussures noires blanches demain")
+(deftest fr-patching-w-names-step-after-multi
+  (testing "les chaussures noires blanches bleues demain")
+  (is (= {:product ["chaussures"] :qualif ["noires" "blanches" "bleues"] :fin []}
+         (-> (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules  "les chaussures noires blanches et bleues demain")
+             (get-in [:result :data])))))
+
+
+(deftest fr-patching-w-names-dont-get-after-multi
+  (testing "les chaussures noires blanches et bleues demain")
+  (is (= {:product ["chaussures"] :qualif ["noires" "blanches" "bleues"] :fin []}
+         (-> (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules  "les chaussures noires blanches et bleues demain")
              (get-in [:result :data])))))
 
 

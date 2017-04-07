@@ -1,4 +1,4 @@
-(defproject postagga "0.2.7"
+(defproject postagga "0.2.8"
   :description "A Library to parse natural language in pure Clojure and ClojureScript"
 
   :url "http://fekr.tech/postagga"
