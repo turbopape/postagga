@@ -11,10 +11,10 @@
 ;; transition matrix - given a state, how likely are we transition to the next one:
 #_{["P" "V"] 0.8 ["V" "D"] 0.1}
 ;; emission matrix - given a state, how likely are we going to see this obseravtion for it:
-#_{["P" "il"] 1 ["V" "mange"] 1} 
+#_{["P" "il"] 1 ["V" "mange"] 1}
 
 (ns postagga.trainer
-  (:require [postagga.tools :refer [get-row load-edn-from-resource]]))
+  (:require [postagga.tools :refer [get-row]]))
 
 (defn process-annotated-sentence
   " A sentence is [[Je P]] ... "
