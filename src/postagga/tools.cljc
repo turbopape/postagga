@@ -1,6 +1,7 @@
 ;; Copyright(c) 2017 - [Rafik Naccache](rafik@fekr.tech)
 (ns postagga.tools
-  #?(:clj (:require [clojure.edn :as edn])))
+  (:require #?(:clj [clojure.edn :as edn])
+            clojure.set))
 
 (defn get-column
   "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
@@ -65,4 +66,3 @@
           [file]
           (let [file-str (load-file-as-str file)]
             (edn/read-string file-str))))
-  
