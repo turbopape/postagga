@@ -218,12 +218,14 @@ infomation. Here's what the parser rules look like:
                            #{:get-value #{"CLS"}} ;;<----- A state in the parse machine
                                            ;;i.e, a set of possible sets of POS TAGS                           
                            :!OR!
+                           
                            :product
                            #{#{"DET"}}
                            #{:get-value #{"NC"}} ;;<--- an alternate possible
                                                  ;; state at this step
+                                                 
                            
-                           :mood
+                           :mood              ;;<--- Another step
                            #{#{"V"}}
                            #{:get-value #{"ADJ"}}]}]
 ```
