@@ -217,6 +217,12 @@ infomation. Here's what the parser rules look like:
                     :rule [:qui       ;;<----- A atep
                            #{:get-value #{"CLS"}} ;;<----- A state in the parse machine
                                            ;;i.e, a set of possible sets of POS TAGS                           
+                           :!OR!
+                           :product
+                           #{#{"DET"}}
+                           #{:get-value #{"NC"}} ;;<--- an alternate possible
+                                                 ;; state at this step
+                           
                            :mood
                            #{#{"V"}}
                            #{:get-value #{"ADJ"}}]}]
@@ -280,6 +286,13 @@ You'll find in the parse map:
 
 the **:optional-steps** stanza tells the parser not to raise an error if a step
 belonging to this vector is not present.
+
+At any step you can specify multiple alternatives for capturing
+different sets of information. In the above example; you can say that
+the first step in your sentence might talk about a person (captured
+through the *CLS* attribute or a product (captured by specified a
+*DET* than a *NC*. You specify such alternatives via the :!OR! keyword.
+
 
 You'll also need to tell the parser how to break down a line of text
 into a vector of words. We call this a **tokenizer**. Waiting to

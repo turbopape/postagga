@@ -42,7 +42,6 @@
 ;; Now we have a HMM based models, which is state of the art: the Viterbi Algorithm
 (def sample-pos-tagger-fn (partial viterbi sample-model))
 
-
 ;; How to create a tagger fn to pass to the parser:
 (def fr-pos-tagger-fn (partial viterbi fr-model))
 
@@ -116,7 +115,7 @@
                     :id :sample-rule-tb-french
                     :optional-steps []
                     :rule [:qui       ;;<----- A atep
-                           #{:get-value #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)                           
+                           #{:get-value #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)     
                            :mood
                            #{#{"V"}}
                            #{:get-value #{"ADJ"}}]}
@@ -124,8 +123,21 @@
                     :id :sample-rule-en-w-name-patch
                     :optional-steps []
                     :rule [:qui       ;;<----- A atep
-                           #{:get-value #{"NPP"} #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)                           
+                           #{:get-value #{"NPP"} #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)                                        
                            :mood
+                           #{#{"V"}#{"VBZ"}}
+                           #{:get-value #{"ADJ"} #{"JJ"} #{"NPP"}}]}])
+
+(def sample-rules-w-or [{;;Rule TB French "rafik Ou Produit est heureux"
+                    :id :sample-rule-en-w-name-patch
+                    :optional-steps []
+                    :rule [:qui       ;;<----- A atep
+                           #{:get-value #{"NPP"} #{"CLS"}}    ;;<----- A status in the parse machine (a set of possible sets of POS TAGS)
+                           :!OR!
+                           :product
+                           #{#{"DET"}}
+                           #{:get-value #{"NC"}}
+                           :qualif
                            #{#{"V"}#{"VBZ"}}
                            #{:get-value #{"ADJ"} #{"JJ"} #{"NPP"}}]}])
 
@@ -142,7 +154,6 @@
   (is (= {:qui["je"] :mood ["heureux"]}
          (-> (parse-tags-rules sample-tokenizer-fn fr-pos-tagger-fn sample-rules  "je suis heureux")
              (get-in [:result :data])))))
-
 
 
 (def patch-en-tagger-w-name
@@ -176,10 +187,17 @@
              (get-in [:result :data])))))
 
 
-(deftest fr-patching-w-names-dont-get-after-multi
-  (testing "les chaussures noires blanches et bleues demain")
-  (is (= {:product ["chaussures"] :qualif ["noires" "blanches" "bleues"] :fin []}
-         (-> (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules  "les chaussures noires blanches et bleues demain")
-             (get-in [:result :data])))))
+(deftest fr-patching-w-names-with-OR-first-case
+  (testing "Rafik est heureux")
+  (is (= {:qui ["rafik"] :qualif ["heureux"]}
+         (->
+          (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules-w-or  "rafik est heureux")
+          (get-in [:result :data])))))
 
 
+(deftest fr-patching-w-names-with-OR-second-case
+  (testing "les chaussure sont noires")
+  (is (= {:product ["chaussures"] :qualif ["noires"]}
+         (->
+          (parse-tags-rules sample-tokenizer-fn patch-fr-tagger-w-name sample-rules-w-or  "les chaussures sont noires")
+          (get-in [:result :data])))))

@@ -1,4 +1,12 @@
+
 # Change Log
+
+## [0.3.0] - 2017-09-28
+### Added
+- Add the :!OR! operator - now you can specify multiple steps for a
+  stage.
+- Written relevant tests for this operator.
+
 ## [0.2.8] - 2017-04-07
 ### Fixed
 - Fix a bug where a status is get-valued if there is a get-valued
