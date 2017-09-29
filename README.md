@@ -214,7 +214,8 @@ infomation. Here's what the parser rules look like:
 (def sample-rules [{;;Rule TB French "je suis heureux."
                     :id :sample-rule-tb-french
                     :optional-steps []
-                    :rule [:qui       ;;<----- A atep
+                    :rule [
+                           :qui       ;;<----- A atep
                            #{:get-value #{"CLS"}} ;;<----- A state in the parse machine
                                            ;;i.e, a set of possible sets of POS TAGS                           
                            :!OR!
