@@ -1,6 +1,6 @@
 # postagga
 
-[![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![Backers on Open Collective](https://opencollective.com/postagga/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/postagga/sponsors/badge.svg)](#sponsors) [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 [![Gratipay](https://img.shields.io/gratipay/turbopape.svg)](https://gratipay.com/turbopape/)
 [![Clojars Project](https://img.shields.io/clojars/v/postagga.svg)](https://clojars.org/postagga)
 
@@ -378,6 +378,36 @@ tab, and please feel free to send your PRs!
 
 Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By
 participating in this project you agree to abide by its terms.
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
+<a href="graphs/contributors"><img src="https://opencollective.com/postagga/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/postagga#backer)]
+
+<a href="https://opencollective.com/postagga#backers" target="_blank"><img src="https://opencollective.com/postagga/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/postagga#sponsor)]
+
+<a href="https://opencollective.com/postagga/sponsor/0/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/1/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/2/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/3/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/4/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/5/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/6/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/7/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/8/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/postagga/sponsor/9/website" target="_blank"><img src="https://opencollective.com/postagga/sponsor/9/avatar.svg"></a>
+
+
 
 # License and Credits
 
