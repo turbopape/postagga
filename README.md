@@ -12,12 +12,12 @@
 **postagga** is a suite of tools to assist you in generating 
 efficient and self-contained natural language processors. You can use **postagga** 
 to process annotated text samples into full fledged parsers capable of
-understanding "*free speech*" input as structured data. Ah and
+understanding "*free speech*" input as structured data. Ah - and
 you'll be able to do this easily. You're welcome.
 
 # Getting postagga
 
-you can refer **postagga** as a lib in your clojure project. Grab it
+You can refer **postagga** as a lib in your Clojure project. Grab it
 from clojars - in your dependencies in **project.clj**, just add:
 
 [![Clojars Project](https://img.shields.io/clojars/v/postagga.svg)](https://clojars.org/postagga)
@@ -36,8 +36,8 @@ In JVM Clojure, provided you have cloned the repository:
  (def fr-model (load-edn "models/fr_tb_v_model.edn")) ;; for French for instance
 ;; ... 
 ```
-We also shipped two light models as vars defined in namespaces, one for
-French and one for English, as for JavaScript, the artifacts size are
+We also shipped two light models as vars defined in namespaces: one for
+French and one for English. As for JavaScript, the artifacts size are
 a concern. You can use these models by requiring the two namespaces:
 
 ```clojure
@@ -49,40 +49,40 @@ a concern. You can use these models by requiring the two namespaces:
 ```
 These namespaces make it easy for you to ship parsers for ClojureScript.
 
-You can see an example on how to work with these model, all while
+You can see an example on how to work with this model, all while
 making sure your code is cmpatible acrosss Clojure AND ClojureScript
 (thanks to readers' conditional) in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
 
 # How does it work?
 
-To do its magic, **postagga** extracts the *phrase structure* of your input, and tries to find how do this structure compare to its many semantic rules and if it finds a match, where in this structure shall he extract meaningful information.
+To do its magic, **postagga** extracts the *phrase structure* of your input and tries to find how does this structure compare to its many semantic rules and if it finds a match, where in this structure shall it extract meaningful information.
 
 Let's study a simple example. Look at the next sentence:
 
 > "Rafik loves apples"
 
-That is our "Natural language input"
+That is our "Natural language input."
 
 First step in understanding this sentence is to extract some structure from it so it is easier to interpret. One common way to do this is extracting its grammatical phrase structure, which is close enough to what "function" words are actually meant to provide:
 
 > Noun Verb Noun
 
-That was the phrase structure analysis, or as we call it POS (Part Of Speech) Tagging. These "Tags" qualify parts of the sentence, as the name imply, and will be used as a hi-fidelity mechanism to write rules for parsers of such phrases.
+That was the phrase structure analysis, or as we call it POS (Part Of Speech) Tagging. These "Tags" qualify parts of the sentence, as the name implies, and will be used as a hi-fidelity mechanism to write rules for parsers of such phrases.
 
-**postagga** has tools that enable you to train POS Taggers for any language you want, without relying on external libs. Actually, it does not care about the meaning of the tags at all. However, you should be consistent and clear enough when annotating your input data samples with tags: On the one hand, your parser will be more reliable and on the other hand, of course, you'll do yourself a great favour maintaining your parser.
+**postagga** has tools that enable you to train POS Taggers for any language you want, without relying on external libs. Actually, it does not care about the meaning of the tags at all. However, you should be consistent and clear enough when annotating your input data samples with tags,on the one hand, your parser will be more reliable and on the other hand, of course, you'll do yourself a great favour maintaining your parser.
 
-Now comes the parser part. Actually, **postagga** offers a parser that needs semantic **rules** to be able to map a particular phrase structure into data. In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is  represented by the **Verb** following it.Finally, the **Noun** coming after the **Verb** will undergo this action.
+Now comes the parser part. Actually, **postagga** offers a parser that needs semantic **rules** to be able to map a particular phrase structure into data. In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is  represented by the **Verb** following it. Finally, the **Noun** coming after the **Verb** will undergo this action.
 
-**postagga** parsers just lets you express such rules so they can extract the data for you. You literally tell them to take the first **Noun**, call it **Subject**, take the verb, label it **action** and the last **Noun** will be the **Object**. and package all of it into the following data strucutre:
+**postagga** parsers just lets you express such rules so they can extract the data for you. You literally tell them to take the first **Noun**, call it **Subject**, take the verb, label it **action** and the last **Noun** will be the **Object** and package all of it into the following data strucutre:
 
 ```clojure
 {:Subject "Rafik" :Action "Loves" :Object "Apples"}
 ```
 Naturally, **postagga** can handle much more complex sentences !
 
-**postagga** parsers are eventually compiled into self-contained packages, with no single third party dependency, and can easily run  on servers (Clojure version) and on the browser (ClojureScript), so now your bots can really get what you're trying to tell them!
+**postagga** parsers are eventually compiled into self-contained packages, with no single third party dependency, and can easily run  on servers (Clojure version) and on the browser (ClojureScript). Now your bots can really get what you're trying to tell them!
 
-# The postagga Workflow
+# The postagga workflow
 
 ## Training a POS Tagger
 First of all, you need to train a POS Tagger that can qualify parts of
@@ -91,12 +91,12 @@ computed with
 the
 [Viterbi  Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm). This
 algorithm makes use of a set of matrices, like what states (the POS Tags)
-we have, how likely do we transition from one POS tag to another,
+we have, how likely we transition from one POS tag to another,
 etc...
 
-All of these constitute a **model**. And these are computed out of what we
+All of these constitute a **model** and these are computed out of what we
 call an **annotated text corpus**. The **postagga.trainer** namespace is used create models
-out of such annoateted text corpus.
+out of such annotated text corpus.
 To train a model, make sure you have an annotated corpus like so:
 
 ```clojure
@@ -106,7 +106,7 @@ To train a model, make sure you have an annotated corpus like so:
 ]
 ```
 
-say you have this corpus - that is : a vector of annotated sentences
+Say you have this corpus - that is : a vector of annotated sentences
 in a var unsurprisingly named **corpus**. To train a **model**, just issue:
 
 ```clojure
@@ -132,7 +132,7 @@ We also processed two annotated corpora for French:
     the
     [Free French tree Bank](https://github.com/nicolashernandez/free-french-treebank).
     
-We exposed two of these models as clojure namespaces so you can embed
+We exposed two of these models as Clojure namespaces so you can embed
 them without using the **resource** functionality - as it is specific
 to Clojure(JVM). We chose the two lightest ones, so they might not
 cause network issues:
@@ -155,22 +155,23 @@ We then trained a  model out of the above English corpus:
       
     
 Now you can use that **model** to assign POS tags to speech:
-(sentences must be fed in the form of a vector of all small-case
-tokens):
+
+(**Note:** sentences must be fed in the form of a vector of all small-case
+tokens)
 ```clojure
 (require '[postagga.tagger :refer [viterbi]])
 
 (viterbi model ["je" "suis" "heureux"])
 ;;=> ["CLS" "V" "ADJ"]
 ```
-### Patching Viterbi's Output
+### Patching Viterbi's output
 
 When the tagger encounters a word it doesn't know about- that is, was
 not in the corpus used to generate the viterbi models - it arbitrarily
 assigns it a tag - more or less randomly picked by the algorithm. To 
 somehow enhance the detection, it is possible to *patch* the output,
 that is, look it up in a dictionary of terms of a known type and force the tags
-accordingly. For instance, given you have a dictionary for
+accordingly. For instance, if you have a dictionary for
 proper nouns in a given language, you can patch your HMM generated
 POS-tags by forcing every word happening to be an entry in this
 dictionary to have the "NPP" tag.
@@ -192,11 +193,11 @@ A reference to the meaning of tags is provided:
 
 ## Using the tagger to parse free speech
 
-Now you have your tagger trained, you can use a parser to drill the
+Now that you have your tagger trained, you can use a parser to drill the
 information from your sentences. For our last example, say you want
-**postagga** to understand how you currently feel, or how do you look... It can be done by detecting
-the first token as being a Subject - **CLS**, doing a verb - **V** and
-then having an Adjective **ADJ**. We want to detect who is having what
+**postagga** to understand how you currently feel, or how do you look. It can be done by detecting
+the first token as being a Subject - **CLS**, doing a Verb - **V** and
+then having an Adjective - **ADJ**. We want to detect who is having what
 adjective in our sentence.
 For this, we'll use the **postagga.parser** namespace.
 
@@ -234,7 +235,7 @@ This deserves some explanation before we carry on with our example.
 
 The parser is basically a state machine. It goes through **steps** *([:qui, :mood])*, with each step encompassing multiple
 **states** *([#{#{"V}} ...])*. A **state** basically refers to words; it is matched with tag sets
-(A word can very well relate to mutiple tags, if your preferred tagger wants to !!). 
+(a word can very well relate to mutiple tags, if your preferred tagger wants to !). 
 Different tag sets can be assigned to a **state**. For instance, to say that in some **state** we require either a *Noun("NPP")* or a *Verb("V")*, you might put:
 
 ```clojure
@@ -259,16 +260,16 @@ Let's say that somewhere we have:
 ]
 ```
 The value of the word that yielded the tag **CLS**  - which is **je** in our example, will be reflected on the
-output map as an entry in some vector associated with the related step,which is **qui** :
+output map as an entry in some vector associated with the related step, which is **qui** :
 
 ```clojure
 {:qui ["je"]}
 ```
-This is what the **postagga** parser is all about: you tell him where to extract information, and how you want it strctured for upstream processing.
+This is what the **postagga** parser is all about: you tell it where to extract information and how you want it strctured for upstream processing.
 
 If we had multiple states with **:get-value** flag on, we'll find multiple words in the corresponding entry in the output; that's why the **step** key is referring a vector of words in the output map.
 
-It is also possible to say that a state can be emcountered repeatedly,
+It is also possible to say that a state can be encountered repeatedly,
 using the **:multi** keyword. If you say in certain state:
 ```clojure
 :some-step
@@ -276,24 +277,24 @@ using the **:multi** keyword. If you say in certain state:
 #{:get-value :multi #{"ADJ"}
 ;...
 ```
-And if you feed **postagga** the following tokenized sentence:
+and if you feed **postagga** the following tokenized sentence:
 
 ```clojure
 ["il" "parait" "beau" "grand" "heureux"]
 ```
 
-You'll find in the parse map:
+you'll find in the parse map:
 ```clojure
 {:some-step ["beau" "grand" "heureux"]}
 ```
 
-the **:optional-steps** stanza tells the parser not to raise an error if a step
+The **:optional-steps** stanza tells the parser not to raise an error if a step
 belonging to this vector is not present.
 
 At any step you can specify multiple alternatives for capturing
-different sets of information. In the above example; you can say that
-the first step in your sentence might talk about a person (captured
-through the *CLS* attribute or a product (captured by specified a
+different sets of information. In the above example, you can say that
+the first step in your sentence might talk about a person captured
+through the *CLS* attribute or a product captured by specified a
 *DET* than a *NC*. You specify such alternatives via the :!OR! keyword.
 
 
@@ -317,7 +318,7 @@ you can parse your sentence like so:
                    sample-rules             ;; The parser rules.
                    "je suis heureux"))      ;; The sentence to parse. 
 ```
-And you'd have a detailed result like so:
+and you'd have a detailed result like so:
 
 ```clojure
 {:errors nil ;;<- The error if any
@@ -329,7 +330,7 @@ And you'd have a detailed result like so:
 
 The errors will be reported as a collection mapping each rule to what
 step and state did the parser fail. This can be quite large, so be
-careful not to spit the contents of the result directly in your REPL,
+careful not to spit the contents of the result directly into your REPL - 
 you can test on the **:errors** being _nil_ and work with the
 **:data** value:
 
@@ -371,13 +372,13 @@ Please refer to the [Changelog](https://github.com/turbopape/postagga/blob/maste
 # TODO and contributing
 
 **postagga** can make great use of great contributors like you! I'll
-track the enhancements, bugs, features etc... in the [project issues](https://github.com/turbopape/postagga/issues)
-tab, and please feel free to send your PRs!
+track the enhancements, bugs, features, etc., in the [project issues](https://github.com/turbopape/postagga/issues)
+tab and please feel free to send your PRs!
 
 # Code Of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By
-participating in this project you agree to abide by its terms.
+participating in this project, you agree to abide by its terms.
 
 ## Contributors
 
