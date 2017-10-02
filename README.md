@@ -50,7 +50,7 @@ a concern. You can use these models by requiring the two namespaces:
 These namespaces make it easy for you to ship parsers for ClojureScript.
 
 You can see an example on how to work with this model, all while
-making sure your code is cmpatible acrosss Clojure AND ClojureScript
+making sure your code is compatible across Clojure AND ClojureScript
 (thanks to readers' conditional) in the [Test File](https://github.com/turbopape/postagga/blob/master/test/postagga/core_test.cljc).
 
 # How does it work?
