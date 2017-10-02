@@ -36,8 +36,8 @@ In JVM Clojure, provided you have cloned the repository:
  (def fr-model (load-edn "models/fr_tb_v_model.edn")) ;; for French for instance
 ;; ... 
 ```
-We also shipped two light models as vars defined in namespaces: one for
-French and one for English. As for JavaScript, the artifacts size are
+We also shipped two light models as vars defined in namespaces: one in
+French and one in English. As for JavaScript, the artifacts size are
 a concern. You can use these models by requiring the two namespaces:
 
 ```clojure
@@ -63,24 +63,24 @@ Let's study a simple example. Look at the next sentence:
 
 That is our "Natural language input."
 
-First step in understanding this sentence is to extract some structure from it so it is easier to interpret. One common way to do this is extracting its grammatical phrase structure, which is close enough to what "function" words are actually meant to provide:
+The first step in understanding this sentence is to extract some structure from it so it is easier to interpret. One common way to do this is extracting it's grammatical phrase structure, which is close enough to what "function" words are actually meant to provide:
 
 > Noun Verb Noun
 
 That was the phrase structure analysis, or as we call it POS (Part Of Speech) Tagging. These "Tags" qualify parts of the sentence, as the name implies, and will be used as a hi-fidelity mechanism to write rules for parsers of such phrases.
 
-**postagga** has tools that enable you to train POS Taggers for any language you want, without relying on external libs. Actually, it does not care about the meaning of the tags at all. However, you should be consistent and clear enough when annotating your input data samples with tags,on the one hand, your parser will be more reliable and on the other hand, of course, you'll do yourself a great favour maintaining your parser.
+**postagga** has tools that enable you to train POS Taggers for any language you want, without relying on external libs. Actually, it does not care about the meaning of the tags at all. However, you should be consistent and clear enough when annotating your input data samples with tags. On the one hand, your parser will be more reliable. On the other hand you'll do yourself a great favour maintaining your parser.
 
-Now comes the parser part. Actually, **postagga** offers a parser that needs semantic **rules** to be able to map a particular phrase structure into data. In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is  represented by the **Verb** following it. Finally, the **Noun** coming after the **Verb** will undergo this action.
+Now comes the parser part. Actually, **postagga** offers a parser that needs semantic **rules** to be able to map a particular phrase structure into data. In our example, we know that the first **Noun** depicts a subject carrying out some action. This action is represented by the **Verb** following it. Finally, the **Noun** coming after the **Verb** will undergo this action.
 
 **postagga** parsers just lets you express such rules so they can extract the data for you. You literally tell them to take the first **Noun**, call it **Subject**, take the verb, label it **action** and the last **Noun** will be the **Object** and package all of it into the following data strucutre:
 
 ```clojure
 {:Subject "Rafik" :Action "Loves" :Object "Apples"}
 ```
-Naturally, **postagga** can handle much more complex sentences !
+Naturally, **postagga** can handle much more complex sentences!
 
-**postagga** parsers are eventually compiled into self-contained packages, with no single third party dependency, and can easily run  on servers (Clojure version) and on the browser (ClojureScript). Now your bots can really get what you're trying to tell them!
+**postagga** parsers are eventually compiled into self-contained packages, with no single third party dependency, and can easily run on servers (Clojure version) and on the browser (ClojureScript). Now your bots can really get what you're trying to tell them!
 
 # The postagga workflow
 
@@ -145,7 +145,7 @@ the [corpuscule project](https://github.com/turbopape/corpuscule).
 **Please refer to the licensing of these corpora to see to what
 extent you can use derived work from them.**
 
-We then trained a  model out of the above English corpus:
+We then trained a model out of the above English corpus:
 
 - [en_fn_v_model.edn](https://github.com/turbopape/postagga/blob/master/models/en_fn_v_model.edn)
 
@@ -195,9 +195,9 @@ A reference to the meaning of tags is provided:
 
 Now that you have your tagger trained, you can use a parser to drill the
 information from your sentences. For our last example, say you want
-**postagga** to understand how you currently feel, or how do you look. It can be done by detecting
+**postagga** to understand how you currently feel, or how you look. It can be done by detecting
 the first token as being a Subject - **CLS**, doing a Verb - **V** and
-then having an Adjective - **ADJ**. We want to detect who is having what
+then having an Adjective - **ADJ**. We want to detect who is identifying with what
 adjective in our sentence.
 For this, we'll use the **postagga.parser** namespace.
 
