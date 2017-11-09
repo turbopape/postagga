@@ -40,31 +40,31 @@
   (if-let [current-tag-alternatives (first tag-stack)] ;; #{[:noun :verb ]...}
     (do
       (cond
-        
+
         (step? current-tag-alternatives) {:step current-tag-alternatives
-                                          :new-stack (rest tag-stack)} 
-        
+                                          :new-stack (rest tag-stack)}
+
         ;; It corrsponds to one of the alternatives
         (matches? input-item current-tag-alternatives)  (if (contains? current-tag-alternatives :multi)
                                                           {:step false
-                                                           :new-stack 
+                                                           :new-stack
                                                            tag-stack}
                                                           {:step false
                                                            :new-stack (rest tag-stack)})
-        
 
-        
+
+
         ;; If I'm here, input-tem does-not match the head of the stack.
         ;; If the head contains Soemthing :multi,
         ;; 1. let's see if its following status correspond to our item so we can move forward
         ;; 2. or if it's a step, then we jump to it
-        
+
         (try (contains? current-tag-alternatives :multi)
              (catch Exception e false)) (cond
                                           (keyword? (second tag-stack)) {:step (second tag-stack)
                                                                          :new-stack
                                                                          (-> tag-stack rest rest)}
-                                          
+
                                           (matches? input-item (second tag-stack)) {:step false
                                                                                     :new-stack
                                                                                     (-> tag-stack rest rest)}
@@ -77,14 +77,6 @@
         :default false))
     false))
 
-
-
-(defn fast-forward-all-ors
-  [tags]
-  (cond
-    (or-step? (or (first tags)
-                  (first (fast-forward tags)))) (recur (-> tags fast-forward fast-forward))
-    :else tags ))
 
 (defn fast-forward-cond
   "Goes FFW in a tag-stack until it finds a step specification. "
@@ -99,6 +91,12 @@
 (def fast-forward (partial fast-forward-cond keyword?))
 (def fast-forward-or (partial fast-forward-cond or-step?))
 
+(defn fast-forward-all-ors
+  [tags]
+  (cond
+    (or-step? (or (first tags)
+                  (first (fast-forward tags)))) (recur (-> tags fast-forward fast-forward))
+    :else tags ))
 
 
 
@@ -130,12 +128,12 @@
                         output
                         (assoc output (get output-stack :step)
                                (get  output-stack :items))))
-          
-          
+
+
 
           (not accept?) (cond
                           ;;step is optional
-                          (some #{(get output-stack :step)} 
+                          (some #{(get output-stack :step)}
                                 optional-steps) (if-let [ffw-stack (fast-forward tag-stack)]
                                                   (recur input-items
                                                          ffw-stack
@@ -149,29 +147,29 @@
                                                                 (-> tag-stack rest rest)
                                                                 output-stack
                                                                 output)
-                          
+
                           :else {:error {:output output
                                          :step (get output-stack  :step)
                                          :expected (first tag-stack) :item input-item}})
-          
+
           ;; Here I might just have exited a multi - must recur to remove the last multi one
           (and accept?
                (not (contains? (first tag-stack) (get input-item 1)))) (recur input-items
                                                                               (rest tag-stack)
                                                                               output-stack
-                                                                              output)                   
+                                                                              output)
           :default (recur (rest input-items)
                           (let [_ (println "ffw-ors" (fast-forward-all-ors new-stack) )](fast-forward-all-ors new-stack))
                           (if (get-value? (first tag-stack))
                             (merge-with conj output-stack {:items (get input-item 0)})
-                            output-stack) 
+                            output-stack)
                           output)))
 
       ;; either input or stack are empty here.
       (cond (or  (and (empty? input-items)
                       (empty? tag-stack))
                  (some #{(first tag-stack)} optional-steps)
-                 
+
                  #_(contains? (first tag-stack) :multi)) {:error false
                                                           :result (assoc output (get output-stack :step)
                                                                          (get  output-stack :items))} ;; all good,
@@ -194,7 +192,7 @@
       (let  [cur-rule (first rem-rules)
              optional-steps (:optional-steps cur-rule)
              sentence-tokens (tokenizer-fn sentence)
-             
+
              cur-parse-result (parse-sentence-w-a-tag-stack pos-tagger-fn sentence-tokens (:rule cur-rule) optional-steps)]
         (if-let [err (get cur-parse-result :error)]
           (recur (rest rem-rules)
@@ -203,5 +201,3 @@
            :result {:rule (:id cur-rule)
                     :data (get cur-parse-result :result)}}))
       {:errors errors})))
-
-
