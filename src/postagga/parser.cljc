@@ -23,8 +23,6 @@
    (keyword? item)))
 
 
-(declare fast-forward-all-ors)
-
 (defn accept-tag
   "Verifies if an input like: [product NPP] correponds to
   one of the keys stored in the head of tag-stack, which would be an
