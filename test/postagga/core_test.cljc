@@ -143,7 +143,7 @@
 
 
 (deftest sample-rules-pass
-  (testing "Je tue une mouche doit retourner P V D N")
+  (testing "Je tue une pomme doit retourner P V D N")
   (is (= {:sujet["Je"] :action ["tue"], :objet ["pomme"]}
          (-> (parse-tags-rules sample-tokenizer-fn sample-pos-tagger-fn  sample-rules "Je tue une pomme")
              (get-in [:result :data])))))
