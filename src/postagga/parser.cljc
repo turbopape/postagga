@@ -24,6 +24,7 @@
 
 
 (declare fast-forward-all-ors)
+(declare fast-forward)
 
 (defn accept-tag
   "Verifies if an input like: [product NPP] correponds to
