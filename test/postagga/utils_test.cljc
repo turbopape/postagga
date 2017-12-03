@@ -4,6 +4,16 @@
   (:require [clojure.test :refer :all]
             [postagga.tools :refer :all]))
 
+(deftest get-column-test
+  (testing "Get Column")
+  (is (= {} (get-column nil 0)))
+  (is (= {} (get-column {} 0)))
+  (is (= {[0 0] 1} (get-column {[0 0] 1} 0)))
+  (is (= {[0 0] 1 [1 0] 2} (get-column {[0 0] 1 [1 0] 2} 0)))
+  (is (= {} (get-column {[0 0] 1 [1 0] 2} 1)))
+  (is (= {[0 1] 3 [1 1] 4} (get-column {[0 0] 1 [1 0] 2 [0 1] 3 [1 1] 4} 1)))
+  (is (= {[0 0] 1 [2 0] 2} (get-column {[0 0] 1 [2 0] 2} 0))))
+ 
 (deftest bigrams-test
   (testing "Bigrams")
   (is (= #{} (bigrams nil)))
