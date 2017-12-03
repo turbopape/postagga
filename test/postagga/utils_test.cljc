@@ -13,6 +13,16 @@
   (is (= {} (get-column {[0 0] 1 [1 0] 2} 1)))
   (is (= {[0 1] 3 [1 1] 4} (get-column {[0 0] 1 [1 0] 2 [0 1] 3 [1 1] 4} 1)))
   (is (= {[0 0] 1 [2 0] 2} (get-column {[0 0] 1 [2 0] 2} 0))))
+
+(deftest get-row-test
+  (testing "Get Row")
+  (is (= {} (get-row nil 0)))
+  (is (= {} (get-row {} 0)))
+  (is (= {[0 0] 1} (get-row {[0 0] 1} 0)))
+  (is (= {[0 0] 1 [0 1] 2} (get-row {[0 0] 1 [0 1] 2} 0)))
+  (is (= {} (get-row {[0 0] 1 [0 1] 2} 1)))
+  (is (= {[1 0] 2 [1 1] 4} (get-row {[0 0] 1 [1 0] 2 [0 1] 3 [1 1] 4} 1)))
+  (is (= {[0 0] 1 [0 2] 2} (get-row {[0 0] 1 [0 2] 2} 0))))
  
 (deftest bigrams-test
   (testing "Bigrams")
