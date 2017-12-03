@@ -23,7 +23,13 @@
   (is (= {} (get-row {[0 0] 1 [0 1] 2} 1)))
   (is (= {[1 0] 2 [1 1] 4} (get-row {[0 0] 1 [1 0] 2 [0 1] 3 [1 1] 4} 1)))
   (is (= {[0 0] 1 [0 2] 2} (get-row {[0 0] 1 [0 2] 2} 0))))
- 
+
+(deftest arg-max-test
+  (testing "Arg Max")
+  ; (is (= nil (arg-max {})))    ; TODO: throws exeption
+  (is (= 0 (arg-max {0 0}))) 
+  (is (= 2 (arg-max {0 1 2 3})))) 
+
 (deftest bigrams-test
   (testing "Bigrams")
   (is (= #{} (bigrams nil)))
