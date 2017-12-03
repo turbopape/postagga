@@ -6,6 +6,10 @@
 
 (deftest bigrams-test
   (testing "Bigrams")
-  (is (= #{} (bigrams nil))))
+  (is (= #{} (bigrams nil)))
+  (is (= #{} (bigrams "")))
+  (is (= #{} (bigrams "a")))
+  (is (= #{"ab"} (bigrams "ab")))
+  (is (= #{"ab" "bc"} (bigrams "abc"))))
 
 
