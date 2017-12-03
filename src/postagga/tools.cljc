@@ -11,7 +11,7 @@
        (into {})))
 
 (defn get-row
-  "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
+  "Given a matrix represented by a map {[i j] x}, produces the row such as i = row  "
   [matrix row]
   (->> matrix
        (filter #(= (get (key %) 0) row))
