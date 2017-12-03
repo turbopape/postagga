@@ -33,3 +33,10 @@
   (is (= true (are-close-within? 1/4 "abc" "bcd")))  
   (is (= true (are-close-within? 1 "abc" "abc"))))
  
+(deftest find-first-test
+  (testing "Find first")
+  (is (= nil (find-first #(= % 2) nil )))
+  (is (= nil (find-first #(= % 2) [1] )))
+  (is (= 2 (find-first #(= % 2) [1 2 3 4] )))
+  (is (= 5 (find-first #(= 0 (mod % 5)) [5 10] )))) 
+
