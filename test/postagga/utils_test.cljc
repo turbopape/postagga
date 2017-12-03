@@ -25,3 +25,11 @@
   (is (= 1/3 (similarity "ab" "abcd")))
   (is (= 0 (similarity "ab" "cd"))))
 
+(deftest are-close-within-test
+  (testing "Are Close Within?")
+  (is (= false (are-close-within? 1/4 "ab" "cd")))  
+  (is (= true (are-close-within? 0 "ab" "cd")))  
+  (is (= false (are-close-within? 3/4 "abc" "bcd")))  
+  (is (= true (are-close-within? 1/4 "abc" "bcd")))  
+  (is (= true (are-close-within? 1 "abc" "abc"))))
+ 
