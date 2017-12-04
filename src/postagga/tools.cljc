@@ -20,7 +20,7 @@
 (defn arg-max
   "gives the key that yields the maximum value"
   [coll]
-  (apply max-key (into [coll] (keys coll))))
+  (apply max-key (into [coll] (or (keys coll) [nil]))))
 
 
 

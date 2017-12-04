@@ -26,7 +26,7 @@
 
 (deftest arg-max-test
   (testing "Arg Max")
-  ; (is (= nil (arg-max {})))    ; TODO: throws exeption
+  (is (= nil (arg-max {})))
   (is (= 0 (arg-max {0 0}))) 
   (is (= 2 (arg-max {0 1 2 3})))) 
 
