@@ -11,7 +11,7 @@
        (into {})))
 
 (defn get-row
-  "Given a matrix represented by a map {[i j] x}, produces the column such as j = column  "
+  "Given a matrix represented by a map {[i j] x}, produces the row such as i = row  "
   [matrix row]
   (->> matrix
        (filter #(= (get (key %) 0) row))
@@ -20,7 +20,7 @@
 (defn arg-max
   "gives the key that yields the maximum value"
   [coll]
-  (apply max-key (into [coll] (keys coll))))
+  (apply max-key (into [coll] (or (keys coll) [nil]))))
 
 
 
