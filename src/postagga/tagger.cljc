@@ -65,7 +65,7 @@
               states []
               index (dec (count observations))]
              (if (<= 0 index) (recur (get (get-column-m T2 index) [act-state index]) (conj states act-state) (dec index))
-              (reverse states)))))
+              (into [] (reverse states))))))
 
 
 (defn patch-w-entity
