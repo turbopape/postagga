@@ -21,9 +21,9 @@
   [annotated-sentence]
   (loop [prev-token (first annotated-sentence)
          rem-tokens (-> annotated-sentence rest)
-         states #{(get prev-token 1)}
+         states (if (nil? prev-token) #{} #{(get prev-token 1)})
          transitions {}
-         emissions {[(get prev-token 1) (get prev-token 0)] 1}]
+         emissions (if (nil? prev-token) {} {[(get prev-token 1) (get prev-token 0)] 1})]
     
     (if (seq rem-tokens)
       (let [cur-token (first rem-tokens)]
