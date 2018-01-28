@@ -31,11 +31,10 @@
   (testing "train")
   (is (= {:states #{} :transitions {} :emissions {} :init-probs {}} (train nil)))
   (is (= {:states #{} :transitions {} :emissions {} :init-probs {}} (train [])))
-;  (is (= {:states #{} :transitions {} :emissions {} :init-probs {}} (train [[]])))  ; TODO
-;  (is (= {:states #{} :transitions {} :emissions {} :init-probs {}} (train [[[]]]))) ; TODO
+  (is (= {:states #{} :transitions {} :emissions {} :init-probs {}} (train [[]])))
+  (is (= {:states #{} :transitions {} :emissions {} :init-probs {}} (train [[[]]])))
   (is (= {:states #{"P"} :transitions {} :emissions {["P" "Je"] 1.0} :init-probs {"P" 1.0}} (train [[["Je" "P"]]])))
   (is (= {:states #{"P" "V"} :transitions {["P" "V"] 1.0} :emissions {["P" "Je"] 1.0 ["V" "Suis"] 1.0} :init-probs {"P" 1.0}} (train [[["Je" "P"]["Suis" "V"]]])))
   (is (= {:states #{"P" "V" "A" "N"} :transitions {["P" "V"] 1.0 ["V" "A"] 1.0 ["A" "N"] 1.0} :emissions {["P" "Je"] 1.0 ["V" "Suis"] 1.0 ["A" "Une"] 1.0 ["N" "Mouche"] 1.0} :init-probs {"P" 1.0}} (train [[["Je" "P"]["Suis" "V"]["Une" "A"]["Mouche" "N"]]])))
-  (is (= {:states #{"P" "V" "A" "N"} :transitions {["P" "V"] 1.0 ["V" "A"] 1.0 ["A" "N"] 1.0} :emissions {["P" "Je"] 0.5 ["P" "Tu"] 0.5 ["V" "Suis"] 0.5 ["V" "Mange"] 0.5 ["A" "Une"] 0.5 ["A" "La"] 0.5 ["N" "Mouche"] 0.5 ["N" "Pomme"] 0.5} :init-probs {"P" 1.0}} (train [[["Je" "P"]["Suis" "V"]["Une" "A"]["Mouche" "N"]][["Tu" "P"]["Mange" "V"]["La" "A"]["Pomme" "N"]]])))
-)
+  (is (= {:states #{"P" "V" "A" "N"} :transitions {["P" "V"] 1.0 ["V" "A"] 1.0 ["A" "N"] 1.0} :emissions {["P" "Je"] 0.5 ["P" "Tu"] 0.5 ["V" "Suis"] 0.5 ["V" "Mange"] 0.5 ["A" "Une"] 0.5 ["A" "La"] 0.5 ["N" "Mouche"] 0.5 ["N" "Pomme"] 0.5} :init-probs {"P" 1.0}} (train [[["Je" "P"]["Suis" "V"]["Une" "A"]["Mouche" "N"]][["Tu" "P"]["Mange" "V"]["La" "A"]["Pomme" "N"]]]))))
  
