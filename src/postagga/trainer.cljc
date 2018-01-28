@@ -21,9 +21,9 @@
   [annotated-sentence]
   (loop [prev-token (first annotated-sentence)
          rem-tokens (-> annotated-sentence rest)
-         states #{(get prev-token 1)}
+         states (if (nil? prev-token) #{} #{(get prev-token 1)})
          transitions {}
-         emissions {[(get prev-token 1) (get prev-token 0)] 1}]
+         emissions (if (nil? prev-token) {} {[(get prev-token 1) (get prev-token 0)] 1})]
     
     (if (seq rem-tokens)
       (let [cur-token (first rem-tokens)]
@@ -84,14 +84,14 @@
          res-emissions {}
          res-init-states []]
     
-    (if (seq rem-sentences)
+    (if (and (seq rem-sentences) (not (nil? (first rem-sentences))))
       (let [sentence (first rem-sentences)
             {:keys [states transitions emissions init-state] :as cur-sent-data} (process-annotated-sentence sentence)]
         (recur (rest rem-sentences)
-               (into res-states states)
+               (into res-states (remove nil? states))
                (merge-with + res-transitions transitions)
                (merge-with + res-emissions emissions)
-               (conj res-init-states init-state)))
+               (if (nil? init-state) res-init-states (conj res-init-states init-state))))
       {:states res-states
        :transitions (compute-matrix-row-probs res-states res-transitions)
        :emissions (compute-matrix-row-probs res-states res-emissions)
